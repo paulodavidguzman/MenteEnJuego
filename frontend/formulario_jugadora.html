@@ -1,0 +1,3178 @@
+<!doctype html>
+<html lang="es">
+  <head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Mente en Juego - Reporte Diario</title>
+    <!-- Tailwind CSS Oficial via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background: #f6f7fb !important;
+        color: #1f2937 !important;
+      }
+
+      header h1 {
+        color: #0b4f8a !important;
+      }
+
+      header p,
+      label,
+      .text-gray-400,
+      .text-gray-500 {
+        color: #667085 !important;
+      }
+      #zonasSeleccionadasTexto {
+  max-height: 170px;
+  overflow-y: auto;
+  font-size: 13px;
+}
+
+#zonasSeleccionadasTexto b {
+  display: block;
+  margin-top: 6px;
+  color: #0b4f8a;
+  line-height: 1.45;
+}
+      
+      .bg-gray-950,
+      .bg-gray-900 {
+        background-color: #ffffff !important;
+      }
+
+      .bg-gray-800 {
+        background-color: #f6f7fb !important;
+      }
+
+      .border-gray-800,
+      .border-gray-700 {
+        border-color: #d0d5dd !important;
+      }
+
+      h2 {
+        color: #0b4f8a !important;
+        border-left-color: #0b4f8a !important;
+      }
+
+      input {
+        color: #1f2937 !important;
+      }
+
+      input[type="range"] {
+        accent-color: #07599f;
+      }
+
+      button[type="submit"] {
+        background-color: #07599f !important;
+        color: white !important;
+      }
+
+      #visorAnatomico3D,
+      #infoCicloJugadora,
+      #alertaDolorInteligente {
+        background: #ffffff !important;
+        color: #1f2937 !important;
+        border-color: #d0d5dd !important;
+      }
+      #visorAnatomico3D{
+    width:100%;
+    max-width:680px;
+    margin:auto;
+}
+
+/* =========================================
+   FORMULARIO POR PASOS - JUGADORA
+========================================= */
+
+.paso-formulario {
+  display: none;
+}
+
+.paso-formulario.activo {
+  display: block;
+}
+
+.navegacion-pasos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-paso {
+  flex: 1;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-anterior {
+  background: #e5e7eb;
+  color: #0b4f8a;
+  border: 1px solid #d0d5dd;
+}
+
+.btn-siguiente {
+  background: #07599f;
+  color: white;
+}
+
+.indicador-pasos {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: #667085;
+  margin-bottom: 12px;
+}
+
+.indicador-pasos strong {
+  color: #0b4f8a;
+}
+
+    </style>
+
+    <style>
+     
+      .zonas-doms-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .zonas-doms-layout {
+    grid-template-columns: 1fr;
+  }
+}
+    #anatomia-wrapper {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+  #anatomia-mapa {
+  position: relative;
+  width: 100%;
+} 
+ #imagenAnatomica {
+  width: 100%;
+  display: block;
+  height: auto;
+}  
+   .zona {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.zona:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  background: rgba(11, 79, 138, 0.14);
+  border-color: rgba(11, 79, 138, 0.35);
+}
+
+.zona.activa {
+  background: rgba(239, 68, 68, 0.20);
+  border: 1.5px solid rgba(239, 68, 68, 0.55);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.25);
+}
+    
+      #zonasSeleccionadasTexto {
+        color: #1f2937 !important;
+        background: #f6f7fb;
+        border: 1px solid #d0d5dd;
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+
+      #alertaDolorInteligente {
+        color: #1f2937 !important;
+        background: #ffffff !important;
+        border: 1px solid #d0d5dd !important;
+        border-left: 6px solid #ef4444 !important;
+        border-radius: 12px;
+        padding: 14px !important;
+        line-height: 1.5;
+      }
+
+
+
+
+#infoCicloJugadora {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-left: 6px solid #22c55e;
+  font-size: 12px;
+  color: #1f2937;
+  line-height: 1.5;
+}
+#riesgoDeportivoMEJ {
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-left: 6px solid #22c55e;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.5;
+}
+      @media (max-width: 768px) {
+        .zonas-doms-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Distribución compacta de Wellness dentro del modal */
+@media (min-width: 900px) {
+  body.en-modal #paso1 .wellness-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+  }
+
+  body.en-modal #paso1 .wellness-grid > .wellness-card {
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #ffffff;
+  }
+}
+      /* El POST conserva el mapa DOMS y oculta su navegación exclusiva de PRE. */
+      body.evaluacion-post-mej #paso2 .navegacion-pasos,
+      body.evaluacion-post-mej #paso4 .navegacion-pasos { display:none!important; }
+      body.evaluacion-post-mej #paso2 { margin-bottom:24px; }
+      body.evaluacion-post-mej #paso2 h2 { font-size:14px; }
+    </style>
+  <link rel="stylesheet" href="tema-institucional-mej.css" />
+<script src="modal-global-mej.js"></script>
+<link rel="stylesheet" href="mej-cabecera-unica.css?v=3" />
+<link rel="stylesheet" href="mej-responsive.css?v=1" />
+</head>
+  <div id="modalMEJ" class="hidden fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 px-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full border border-gray-200 overflow-hidden">
+    <div id="modalMEJBarra" class="h-2 bg-blue-600"></div>
+
+    <div class="p-6 text-center">
+      <div id="modalMEJIcono" class="text-4xl mb-3">ℹ️</div>
+
+      <h3 id="modalMEJTitulo" class="text-lg font-black text-gray-900 mb-2">
+        Aviso
+      </h3>
+
+      <p id="modalMEJMensaje" class="text-sm text-gray-600 leading-6">
+        Mensaje del sistema
+      </p>
+
+      <button
+        type="button"
+        onclick="cerrarModalMEJ()"
+        class="mt-5 w-full rounded-xl bg-[#07599f] text-white font-black py-3 uppercase tracking-wide"
+      >
+        Aceptar
+      </button>
+    </div>
+  </div>
+</div>
+  <body class="bg-gray-950 text-gray-100 font-sans min-h-screen pb-10">
+    <!-- CONTENEDOR MÓVIL PRINCIPAL -->
+   <main class="w-full max-w-5xl mx-auto px-4 py-2 space-y-3"></main>
+      <!-- ENCABEZADO -->
+      <header id="encabezadoFormularioJugadora"
+        class="text-center border-b border-gray-800 pb-4">
+        <h1 class="text-2xl font-black tracking-wider text-green-400 uppercase">
+          Mente en Juego
+        </h1>
+        <p class="text-xs text-gray-400 mt-1">
+          Club Atlético Talleres - Reporte Diario Obligatorio
+        </p>
+        <div id="usuarioBarra" style="font-size:13px;color:#667085;font-weight:700;">
+  Usuario conectado
+</div>
+        <button
+  type="button"
+  onclick="cerrarSesion()"
+  style="
+    margin-top:12px;
+    background:#eef4fb;
+    color:#0b4f8a;
+    border:1px solid #d0d5dd;
+    border-radius:999px;
+    padding:8px 14px;
+    font-weight:900;
+    font-size:11px;
+    text-transform:uppercase;
+  "
+>
+  Cerrar sesión
+</button>
+      </header>
+      <!-- PANEL DE NOTIFICACIONES MÓVILES Y CORREO (Simulación Detalle 3) -->
+      <div
+        id="panelNotificacionesCelular"
+        style="
+          background-color: #111827;
+          border: 1px solid #1e2937;
+          border-radius: 12px;
+          padding: 15px;
+          margin-bottom: 20px;
+          display: none;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+          "
+        >
+          <span style="font-size: 16px">🔔</span>
+          <h4
+            style="
+              margin: 0;
+              font-size: 13px;
+              text-transform: uppercase;
+              color: #38bdf8;
+              letter-spacing: 0.5px;
+            "
+          >
+            Centro de Notificaciones Automáticas (CAT Sincro)
+          </h4>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 12px;
+          "
+        >
+          <div
+            style="
+              background-color: #0c4a6e;
+              border: 1px solid #0284c7;
+              padding: 10px;
+              border-radius: 6px;
+              color: #e0f2fe;
+            "
+          >
+            📱
+            <strong
+              >Mensaje SMS/WhatsApp enviado al Celular [Base de Datos]:</strong
+            >
+            <span id="logCelular">Disparando alerta...</span>
+          </div>
+          <div
+            style="
+              background-color: #14532d;
+              border: 1px solid #16a34a;
+              padding: 10px;
+              border-radius: 6px;
+              color: #dcfce7;
+            "
+          >
+            📧
+            <strong
+              >Notificación por Correo enviada al Email [Base de Datos]:</strong
+            >
+            <span id="logEmail">Disparando correo...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULARIO PRINCIPAL -->
+      <form
+        id="formCuestionario"
+        class="space-y-6"
+        onsubmit="enviarReporteDiario(event)"
+      >
+        <!--  LOGUEO (ID JUGADORA) -->
+       
+<!-- IDENTIDAD DE LA JUGADORA -->
+<div
+  id="cardIdentidadJugadora"
+  class="bg-gray-900 p-4 rounded-xl border border-gray-800"
+  style="max-width:520px; margin:0 auto; text-align:center;"
+>
+  <div
+    id="nombreJugadoraSesion"
+    style="
+      font-size:18px;
+      font-weight:900;
+      color:#0b4f8a;
+      margin-bottom:6px;
+    "
+  >
+    Jugadora
+  </div>
+
+  <div
+    id="detalleJugadoraSesion"
+    style="
+      font-size:12px;
+      color:#667085;
+    "
+  >
+    Cargando datos de sesión...
+  </div>
+
+  <img
+    id="fotoJugadoraSesion"
+    src="assets/avatar_jugadora.png"
+    alt="Foto de la jugadora"
+    style="display:none;"
+  />
+
+  <input type="hidden" id="inputJugadoraId" />
+</div>
+
+       
+        <!-- BLOQUE 1: WELLNESS SEMÁFORO -->
+<section
+  id="paso1"
+  class="space-y-4 paso-formulario activo"
+>
+      <h2
+  class="text-sm font-bold uppercase tracking-widest text-green-400 border-l-2 border-green-400 pl-2"
+>
+  1. Estado de Bienestar (Wellness)
+</h2>
+
+<div class="wellness-grid">
+
+  <!-- Estrés -->
+  <div class="wellness-card bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-2">
+
+    <div class="flex justify-between text-sm">
+      <span class="font-semibold">Nivel de Estrés:</span>
+      <span id="valEstres" class="text-green-400 font-bold">3</span>
+    </div>
+
+  
+<!-- NÚMEROS DE REFERENCIA -->
+<div
+  class="flex justify-between text-xs font-bold text-gray-500"
+  style="padding: 0 7px; margin-top: 8px; margin-bottom: 2px;"
+>
+  <span>1</span>
+  <span>2</span>
+  <span>3</span>
+  <span>4</span>
+  <span>5</span>
+</div>
+
+<!-- BARRA -->
+<input
+  type="range"
+  min="1"
+  max="5"
+  step="1"
+  value="3"
+  id="slEstres"
+  class="w-full"
+  oninput="
+    document.getElementById('valEstres').innerText = this.value;
+    actualizarDescripcionEstres(this.value);
+  "
+/>
+
+<!-- EXTREMOS DE LA ESCALA -->
+<div class="flex justify-between text-[10px] text-gray-500">
+  <span>1: Muy Estresada</span>
+  <span>5: Muy Relajada</span>
+</div>
+
+<!-- DESCRIPCIÓN SEGÚN LO SELECCIONADO -->
+<div
+  id="descripcionEstres"
+  style="
+    margin-top: 10px;
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #075985;
+    background: #f8fafc;
+  "
+>
+  Estado: Moderada
+</div>
+
+<!-- CERRAMOS LA TARJETA DE ESTRÉS -->
+</div>
+
+<!-- ABRIMOS LA TARJETA DE HUMOR -->
+<div class="wellness-card bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-2">
+
+  <div class="flex justify-between text-sm">
+    <span class="font-semibold">Estado de Humor:</span>
+    <span id="valHumor" class="text-green-400 font-bold">3</span>
+  </div>
+
+<!-- NÚMEROS DE REFERENCIA -->
+<div
+  class="flex justify-between text-xs font-bold text-gray-500"
+  style="padding: 0 7px; margin-top: 8px; margin-bottom: 2px;"
+>
+  <span>1</span>
+  <span>2</span>
+  <span>3</span>
+  <span>4</span>
+  <span>5</span>
+</div>
+
+<!-- BARRA -->
+<input
+  type="range"
+  min="1"
+  max="5"
+  step="1"
+  value="3"
+  id="slHumor"
+  class="w-full"
+  oninput="
+    document.getElementById('valHumor').innerText = this.value;
+    actualizarDescripcionHumor(this.value);
+  "
+/>
+
+<!-- EXTREMOS -->
+<div class="flex justify-between text-[10px] text-gray-500">
+  <span>1: Molesta / Irritada</span>
+  <span>5: Muy Positiva</span>
+</div>
+
+<!-- DESCRIPCIÓN -->
+<div
+  id="descripcionHumor"
+  style="
+    margin-top: 10px;
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #075985;
+    background: #f8fafc;
+  "
+>
+   Estado: Normal
+</div>
+
+<!-- FIN DE LA TARJETA HUMOR -->
+</div>
+
+<!-- INICIO DE LA TARJETA SUEÑO -->
+<div class="wellness-card bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-2">
+
+  <!-- Sueño -->
+  <div class="flex justify-between text-sm">
+  <span class="font-semibold">Calidad del Sueño:</span>
+  <span id="valSueno" class="text-green-400 font-bold">3</span>
+</div>
+
+<!-- NÚMEROS DE REFERENCIA -->
+<div
+  class="flex justify-between text-xs font-bold text-gray-500"
+  style="padding: 0 7px; margin-top: 8px; margin-bottom: 2px;"
+>
+  <span>1</span>
+  <span>2</span>
+  <span>3</span>
+  <span>4</span>
+  <span>5</span>
+</div>
+
+<!-- BARRA -->
+<input
+  type="range"
+  min="1"
+  max="5"
+  step="1"
+  value="3"
+  id="slSueno"
+  class="w-full"
+  oninput="
+    document.getElementById('valSueno').innerText = this.value;
+    actualizarDescripcionSueno(this.value);
+  "
+/>
+
+<!-- EXTREMOS -->
+<div class="flex justify-between text-[10px] text-gray-500">
+  <span>1: Insomnio / Mal descanso</span>
+  <span>5: Muy profundo</span>
+</div>
+
+<!-- DESCRIPCIÓN -->
+<div
+  id="descripcionSueno"
+  style="
+    margin-top: 10px;
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #075985;
+    background: #f8fafc;
+  "
+>
+   Estado: Descanso normal
+</div>
+
+<!-- FIN DE LA TARJETA SUEÑO -->
+</div>
+
+<!-- RECUPERACIÓN PERCIBIDA -->
+<div class="wellness-card bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-2">
+
+  <div class="flex justify-between text-sm">
+    <span class="font-semibold">Nivel de Recuperación:</span>
+    <span id="valRecuperacion" class="text-green-400 font-bold">3</span>
+  </div>
+
+  <div class="flex justify-between text-xs font-bold text-gray-500">
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>4</span>
+    <span>5</span>
+  </div>
+
+  <input
+    type="range"
+    min="1"
+    max="5"
+    step="1"
+    value="3"
+    id="slRecuperacion"
+    class="w-full"
+    oninput="actualizarDescripcionRecuperacion(this.value)"
+  />
+
+  <div class="flex justify-between text-[10px] text-gray-500">
+    <span>1: Muy mala</span>
+    <span>5: Muy buena</span>
+  </div>
+
+  <div
+    id="descripcionRecuperacion"
+    style="
+      margin-top: 10px;
+      padding: 8px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #075985;
+      background: #f8fafc;
+    "
+  >
+    Estado: Recuperación moderada
+  </div>
+
+</div>
+
+<!-- FIN DEL CONTENEDOR DE LAS TRES TARJETAS WELLNESS -->
+</div>
+
+<!-- NAVEGACIÓN DEL PASO 1 -->
+<div class="navegacion-pasos">
+  <button
+    type="button"
+    class="btn-paso btn-siguiente"
+    onclick="cambiarPasoFormulario(2)"
+  >
+    SIGUIENTE →
+  </button>
+</div>
+        </section>
+
+        <!-- BLOQUE 2: MAPA ANATÓMICO DE DOLORES (DOMS) -->
+        <section
+  id="paso2"
+  class="space-y-4 paso-formulario"
+>
+          <h2
+            class="text-sm font-bold uppercase tracking-widest text-green-400 border-l-2 border-green-400 pl-2"
+          >
+            2. Dolores Musculares (DOMS)
+          </h2>
+
+          <div
+            class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-4"
+          >
+            <div class="flex justify-between text-sm">
+              <span class="font-semibold">Intensidad del Dolor General:</span>
+              <span id="valDoms" class="text-green-400 font-bold">5</span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="5"
+              value="5"
+              id="slDoms"
+              oninput="
+                document.getElementById('valDoms').innerText = this.value; actualizarAlertaDolorInteligente();actualizarIndiceRiesgoMEJ();"
+              class="w-full"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1: Dolor Muy Agudo</span> <span>5: Sin Dolores</span>
+            </div>
+
+            <div class="border-t border-gray-800 pt-3">
+              <div class="zonas-doms-layout">
+<div id="anatomia-wrapper">
+  <p style="font-size:12px;color:#667085;margin-bottom:10px;line-height:1.4;">
+    Tocá sobre la zona muscular donde sentís molestia. Podés seleccionar más de una zona y volver a tocar para desmarcar.
+  </p>
+
+  <div id="anatomia-mapa">
+    <img
+      id="imagenAnatomica"
+    src="assets/modelos/anatomia_femenina.jpg"
+    />
+  </div>
+  <!-- SELECTOR FLOTANTE DE DOLOR -->
+<div
+  id="selectorDolorFlotante"
+  style="
+    display:none;
+    position:fixed;
+    z-index:9999;
+    width:220px;
+    background:#ffffff;
+    border:1px solid #d0d5dd;
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+  "
+>
+  <div
+    id="nombreZonaFlotante"
+    style="
+      font-size:13px;
+      font-weight:900;
+      color:#0b4f8a;
+      margin-bottom:8px;
+    "
+  >
+    Zona muscular
+  </div>
+
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:4px;
+    "
+  >
+    <span style="font-size:11px;font-weight:700;">
+      Intensidad del dolor
+    </span>
+
+    <span
+      id="valorDolorFlotante"
+      style="
+        font-size:13px;
+        font-weight:900;
+        color:#ef4444;
+      "
+    >
+      1/10
+    </span>
+  </div>
+
+  <input
+    id="sliderDolorFlotante"
+    type="range"
+    min="1"
+    max="10"
+    step="1"
+    value="1"
+    style="width:100%;"
+    oninput="actualizarDolorFlotante(this.value)"
+  />
+
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      font-size:9px;
+      color:#667085;
+      margin-top:2px;
+    "
+  >
+    <span>1: Leve</span>
+    <span>10: Máximo</span>
+  </div>
+
+  <button
+    type="button"
+    onclick="confirmarDolorFlotante()"
+    style="
+      width:100%;
+      margin-top:10px;
+      background:#0b4f8a;
+      color:white;
+      border:none;
+      border-radius:8px;
+      padding:8px;
+      font-size:11px;
+      font-weight:900;
+      cursor:pointer;
+    "
+  >
+    CONFIRMAR
+  </button>
+</div>
+</div>
+
+
+<div style="display:flex;flex-direction:column;gap:12px;">
+
+<div id="zonasSeleccionadasTexto" style="display:none;">
+  Zonas seleccionadas:
+  ninguna
+</div>
+
+<div id="contenedorIntensidadDolor" style="display:none;"></div>
+
+<div id="alertaDolorInteligente">
+Sin zonas críticas seleccionadas.
+</div>
+<div id="riesgoDeportivoMEJ">
+  Índice de Riesgo Deportivo MEJ: calculando...
+</div>
+<button
+  type="button"
+  onclick="limpiarZonasDolor()"
+  style="
+    background:#eef4fb;
+    color:#0b4f8a;
+    border:1px solid #d0d5dd;
+    border-radius:10px;
+    padding:10px;
+    font-weight:800;
+    font-size:12px;
+  "
+>
+   Limpiar zonas seleccionadas
+</button>
+</div>
+
+</div> <!-- Fin de zonas-doms-layout -->
+</div> <!-- Fin de border-t -->
+</div> <!-- Fin de tarjeta DOMS -->
+
+<div class="navegacion-pasos">
+  <button
+    type="button"
+    class="btn-paso btn-anterior"
+    onclick="cambiarPasoFormulario(1)"
+  >
+    ← ANTERIOR
+  </button>
+
+  <button
+    type="button"
+    class="btn-paso btn-siguiente"
+    onclick="cambiarPasoFormulario(3)"
+  >
+    SIGUIENTE →
+  </button>
+</div>
+        </section>
+
+       <!-- BLOQUE 3: MONITOREO DEL CICLO MENSTRUAL -->
+<section
+  id="paso3"
+  class="space-y-4 paso-formulario"
+>
+  <h2 class="text-sm font-bold uppercase tracking-widest text-green-400 border-l-2 border-green-400 pl-2">
+    3. Control Fisiológico
+  </h2>
+
+  <div class="bg-gray-900 p-4 rounded-xl border border-gray-800">
+    <label class="block text-sm font-semibold mb-2">
+      ¿Qué número de día de tu ciclo menstrual es hoy?
+    </label>
+
+    <div id="selectorCicloVisual">
+      <label class="block text-sm font-semibold mb-2">
+        Día del ciclo menstrual
+      </label>
+
+      <input
+        type="number"
+        id="txtCicloMenstrual"
+        min="1"
+        max="28"
+       value=""
+placeholder="Ingresá el día de tu ciclo"
+        
+        oninput="actualizarSelectorCiclo(); actualizarAlertaDolorInteligente();actualizarIndiceRiesgoMEJ();"
+        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 font-bold text-center"
+      />
+<div style="display:flex;justify-content:center;margin:18px 0;">
+  <canvas
+    id="canvasCicloCircularJugadora"
+    width="260"
+    height="260"
+    style="width:260px;height:260px;cursor:pointer;"
+  ></canvas>
+</div>
+    
+      <div id="infoCicloJugadora">
+        Fase estimada: cargando...
+      </div>
+
+      <p class="text-[10px] text-gray-500 mt-2">
+        Ingresar el número correlativo desde el primer día del último período.
+      </p>
+    </div>
+  </div>
+  <div class="navegacion-pasos">
+  <button
+    type="button"
+    class="btn-paso btn-anterior"
+    onclick="cambiarPasoFormulario(2)"
+  >
+    ← ANTERIOR
+  </button>
+
+ <button
+  type="button"
+  id="btnFinalizarPre"
+  class="btn-paso btn-siguiente"
+  onclick="prepararEnvioPre()"
+>
+  FINALIZAR EVALUACIÓN PRE →
+</button>
+</div>
+</section>
+
+        <!-- BLOQUE 4: CARGA SUBJETIVA -->
+        <section
+  id="paso4"
+  class="space-y-4 paso-formulario"
+>
+          <h2
+            class="text-sm font-bold uppercase tracking-widest text-green-400 border-l-2 border-green-400 pl-2"
+          >
+            4. Carga de la Sesión (Post-Entrenamiento)
+          </h2>
+
+          <div
+            class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-4"
+          >
+            <div class="flex justify-between text-sm">
+              <span class="font-semibold">Percepción del Esfuerzo (RPE):</span>
+              <span id="valRpe" class="text-green-400 font-bold">5</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="10"
+              value="5"
+              id="slRpe"
+              oninput="document.getElementById('valRpe').innerText = this.value; actualizarAlertaDolorInteligente();actualizarIndiceRiesgoMEJ();"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0: Descanso absoluto</span> <span>10: Esfuerzo Máximo</span>
+            </div>
+
+            <div class="border-t border-gray-800 pt-3">
+              <label
+                class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wide"
+                >Minutos Reales Entrenados:</label
+              >
+             
+
+<input
+  type="number"
+  id="txtMinutos"
+  min="10"
+  max="180"
+  step="1"
+  required
+  placeholder="Ej: 90"
+  class="w-full border rounded-lg px-3 py-2 font-bold focus:outline-none"
+  style="background-color: #ffffff !important;
+         color: #111827 !important;
+         -webkit-text-fill-color: #111827 !important;
+         opacity: 1 !important;
+         font-size: 16px !important;
+         font-weight: 600 !important;
+         border: 1px solid #9ca3af !important;"
+  oninput="if (this.value !== '' && Number(this.value) > 180) this.value = '180';"
+/>
+
+
+            </div>
+          </div>
+          <div class="navegacion-pasos">
+  <button
+    type="button"
+    class="btn-paso btn-anterior"
+    onclick="cambiarPasoFormulario(3)"
+  >
+    ← ANTERIOR
+  </button>
+</div>
+ <!-- BOTÓN DE ENVÍO -->
+        <button
+          type="submit"
+          class="w-full bg-green-500 hover:bg-green-600 text-gray-950 font-black pdf-ignore py-3 rounded-xl uppercase tracking-wider transition"
+        >
+          🚀 Enviar Reporte a la API
+                
+        </button>
+        </section>
+
+       
+
+      </form>
+    </main>
+  
+ <script>
+
+
+function prepararEnvioPre() {
+
+  const momento = sessionStorage.getItem("momentoEvaluacion");
+
+  if (momento !== "PRE") {
+    mostrarAvisoMEJ("Esta opción corresponde únicamente a la evaluación PRE.");
+    return;
+  }
+
+  const formulario = document.getElementById("formCuestionario");
+
+  if (!formulario) {
+    mostrarAvisoMEJ("No se encontró el formulario de evaluación.");
+    return;
+  }
+ // Enviar PRE sin activar las validaciones HTML de POST.
+  formulario.dispatchEvent(
+  new Event("submit", { bubbles: true, cancelable: true })
+);
+}
+
+function actualizarDescripcionSueno(valor) {
+  const descripcion =
+    document.getElementById("descripcionSueno");
+
+  const estados = {
+    1: "Insomnio / Mal descanso",
+    2: "Descanso insuficiente",
+    3: "Descanso normal",
+    4: "Buen descanso",
+    5: "Sueño muy profundo",
+  };
+
+  descripcion.innerText =
+    "Estado: " + estados[valor];
+}
+
+
+  function actualizarDescripcionHumor(valor) {
+  const descripcion =
+    document.getElementById("descripcionHumor");
+
+  const estados = {
+    1: "Molesta / Irritada",
+    2: "Ánimo bajo",
+    3: "Normal",
+    4: "Buen ánimo",
+    5: "Muy positiva",
+  };
+
+  descripcion.innerText =
+    "Estado: " + estados[valor];
+}
+
+  function actualizarDescripcionEstres(valor) {
+  const descripcion =
+    document.getElementById("descripcionEstres");
+
+  const estados = {
+    1: "Muy estresada",
+    2: "Estresada",
+    3: "Moderada / Normal",
+    4: "Relajada",
+    5: "Muy relajada",
+  };
+
+  descripcion.innerText =
+    "Estado: " + estados[valor];
+}
+// ACTUALIZAR DESCRIPCIÓN DE RECUPERACIÓN
+function actualizarDescripcionRecuperacion(valor) {
+
+  const descripcion = document.getElementById(
+    "descripcionRecuperacion"
+  );
+
+  const valorMostrado = document.getElementById(
+    "valRecuperacion"
+  );
+
+  const estados = {
+    1: "Recuperación muy mala",
+    2: "Recuperación mala",
+    3: "Recuperación moderada",
+    4: "Recuperación buena",
+    5: "Recuperación muy buena"
+  };
+
+  if (valorMostrado) {
+    valorMostrado.innerText = valor;
+  }
+
+  if (descripcion) {
+    descripcion.innerText = "Estado: " + estados[valor];
+  }
+}
+function cambiarPasoFormulario(numeroPaso) {
+    const momento = sessionStorage.getItem("momentoEvaluacion");
+
+  if (momento === "PRE" && numeroPaso === 4) {
+    mostrarAvisoMEJ("El paso de carga de entrenamiento corresponde a la evaluación POST.");
+    return;
+  }
+
+  if (momento === "POST" && numeroPaso !== 4) {
+    mostrarAvisoMEJ("En POST se completan la carga y las molestias musculares en una misma pantalla.");
+    return;
+  }
+  // Ocultar todas las pantallas
+  const pasos = document.querySelectorAll(".paso-formulario");
+
+  pasos.forEach((paso) => {
+    paso.classList.remove("activo");
+  });
+
+  // Mostrar solamente la pantalla seleccionada
+  const pasoSeleccionado =
+    document.getElementById(`paso${numeroPaso}`);
+
+  if (pasoSeleccionado) {
+    pasoSeleccionado.classList.add("activo");
+  }
+  // En POST, mostrar el mapa anatómico original junto a RPE y minutos.
+  if (momento === "POST" && numeroPaso === 4) {
+    document.getElementById("paso2")?.classList.add("activo");
+    document.body.classList.add("evaluacion-post-mej");
+  } else {
+    document.body.classList.remove("evaluacion-post-mej");
+  }
+
+  // Volver arriba para evitar quedar posicionado
+  // en la parte inferior de la pantalla anterior
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+
+  function mostrarUsuarioEnBarra() {
+  const box = document.getElementById("usuarioBarra");
+  if (!box) return;
+
+  const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
+  const rol = localStorage.getItem("rolUsuario") || "rol no definido";
+  const especialidad = localStorage.getItem("especialidadMedico") || "";
+
+  box.innerHTML = `👤 ${nombre} · ${rol.toUpperCase()} ${
+    especialidad && especialidad !== "General" ? "· " + especialidad : ""
+  }`;
+}
+
+
+
+mostrarUsuarioEnBarra();
+(function protegerAccesoJugadora() {
+  const sesion = localStorage.getItem("sesionActiva");
+  const rol = localStorage.getItem("rolUsuario");
+
+  if (sesion !== "true" || rol !== "jugadora") {
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+})();
+</script>  
+<script>
+let datosGps = null;
+const zonasMusculares = [
+
+/* ---------- FRENTE ---------- */
+
+{nombre:"Pectoral izquierdo",x:28,y:35.6,w:5,h:6},
+{nombre:"Pectoral derecho",x:34,y:35.6,w:5,h:6},
+
+{nombre:"Abdominales",x:31,y:45,w:6,h:10},
+
+{nombre:"Hombro izquierdo",x:23,y:30.8,w:4,h:5},
+{nombre:"Hombro derecho",x:39,y:30.8,w:4,h:5},
+
+{nombre:"Bíceps izquierdo",x:23,y:38,w:3.5,h:8},
+{nombre:"Bíceps derecho",x:39,y:38,w:3.5,h:8},
+
+{nombre:"Antebrazo anterior izquierdo",x:19,y:45,w:3,h:7},
+{nombre:"Antebrazo anterior derecho",x:43,y:45,w:3,h:7},
+
+{nombre:"Aductores izquierdo",x:29,y:56,w:3,h:6},
+{nombre:"Aductores derecho",x:33.5,y:56,w:3,h:6},
+
+{nombre:"Cuádriceps izquierdo",x:25,y:57,w:4,h:11},
+{nombre:"Cuádriceps derecho",x:37,y:57,w:4,h:11},
+
+{nombre:"Tibial anterior izquierdo",x:24,y:74,w:3,h:8},
+{nombre:"Tibial anterior derecho",x:38,y:74,w:3,h:8},
+
+/* ---------- ESPALDA ---------- */
+
+{nombre:"Trapecio izquierdo",x:65,y:31,w:6,h:7},
+{nombre:"Trapecio derecho",x:74,y:31,w:6,h:7},
+
+{nombre:"Dorsal izquierdo",x:66,y:41,w:6,h:9},
+{nombre:"Dorsal derecho",x:73.4,y:41,w:6,h:9},
+
+{nombre:"Lumbares",x:70,y:47,w:9,h:7},
+
+{nombre:"Glúteo izquierdo",x:65,y:52,w:8,h:8},
+{nombre:"Glúteo derecho",x:74,y:52,w:8,h:8},
+
+{nombre:"Tríceps izquierdo",x:60,y:39,w:4,h:8},
+{nombre:"Tríceps derecho",x:80,y:39,w:4,h:8},
+
+{nombre:"Antebrazo posterior izquierdo",x:58,y:47.5,w:4,h:10},
+{nombre:"Antebrazo posterior derecho",x:81,y:47.5,w:4,h:10},
+
+{nombre:"Isquiosural izquierdo",x:65.5,y:63,w:6,h:12},
+{nombre:"Isquiosural derecho",x:74,y:63,w:6,h:12},
+
+{nombre:"Gemelo posterior izquierdo",x:65,y:74,w:6,h:10},
+{nombre:"Gemelo posterior derecho",x:74,y:74,w:6,h:10}
+
+];
+
+let zonaFlotanteActual = null;
+
+function abrirSelectorDolorFlotante(elementoZona) {
+
+  // Si la zona ya está seleccionada, desmarcarla
+  if (elementoZona.classList.contains("activa")) {
+
+    elementoZona.classList.remove("activa");
+
+    // Borrar intensidad y color
+    delete elementoZona.dataset.intensidad;
+
+    elementoZona.style.backgroundColor = "";
+    elementoZona.style.borderColor = "";
+    elementoZona.style.boxShadow = "";
+
+    // Cerrar selector flotante
+    const selector = document.getElementById("selectorDolorFlotante");
+
+    if (selector) {
+      selector.style.display = "none";
+    }
+
+    zonaFlotanteActual = null;
+
+    // Actualizar indicadores
+    actualizarTextoZonas();
+    renderizarIntensidadDolor();
+    actualizarAlertaDolorInteligente();
+    actualizarIndiceRiesgoMEJ();
+
+    return;
+  }
+
+  zonaFlotanteActual = elementoZona;
+  
+
+  const selector =
+    document.getElementById("selectorDolorFlotante");
+
+  const nombre =
+    document.getElementById("nombreZonaFlotante");
+
+  const slider =
+    document.getElementById("sliderDolorFlotante");
+
+  const valor =
+    document.getElementById("valorDolorFlotante");
+
+  if (!selector || !nombre || !slider || !valor) return;
+
+  const intensidad =
+    elementoZona.dataset.intensidad || 1;
+
+  nombre.innerText =
+    elementoZona.dataset.zona;
+
+  slider.value = intensidad;
+
+  valor.innerText =
+    intensidad + "/10";
+
+
+  // POSICIÓN DE LA ZONA TOCADA
+  const rect =
+    elementoZona.getBoundingClientRect();
+
+
+  let izquierda =
+    rect.right + 12;
+
+  let arriba =
+    rect.top - 20;
+
+
+  // Si no entra a la derecha,
+  // lo mostramos a la izquierda
+  if (izquierda + 230 > window.innerWidth) {
+
+    izquierda =
+      rect.left - 232;
+
+  }
+
+
+  // Evitar que salga por arriba
+  if (arriba < 10) {
+    arriba = 10;
+  }
+
+
+  // Evitar que salga por abajo
+  if (arriba + 190 > window.innerHeight) {
+
+    arriba =
+      window.innerHeight - 200;
+
+  }
+
+
+  selector.style.left =
+    izquierda + "px";
+
+  selector.style.top =
+    arriba + "px";
+
+  selector.style.display =
+    "block";
+}
+
+
+function actualizarDolorFlotante(valor) {
+
+  const texto =
+    document.getElementById(
+      "valorDolorFlotante"
+    );
+
+  if (texto) {
+    texto.innerText =
+      valor + "/10";
+  }
+}
+
+
+function confirmarDolorFlotante() {
+
+  if (!zonaFlotanteActual) return;
+
+  const slider =
+    document.getElementById(
+      "sliderDolorFlotante"
+    );
+
+  if (!slider) return;
+
+  const intensidad =
+    parseInt(slider.value);
+
+
+  // GUARDAMOS LA INTENSIDAD
+  zonaFlotanteActual.dataset.intensidad =
+    intensidad;
+
+
+  // LA ZONA QUEDA SELECCIONADA
+  zonaFlotanteActual.classList.add("activa");
+
+
+  // COLOR SEGÚN INTENSIDAD
+  aplicarColorDolor(
+    zonaFlotanteActual,
+    intensidad
+  );
+
+
+  // ACTUALIZAMOS EL SISTEMA
+  actualizarTextoZonas();
+
+  actualizarAlertaDolorInteligente();
+
+  actualizarIndiceRiesgoMEJ();
+
+
+  // CERRAMOS EL SELECTOR
+  document.getElementById(
+    "selectorDolorFlotante"
+  ).style.display = "none";
+
+
+  zonaFlotanteActual = null;
+}
+
+
+function aplicarColorDolor(zona, intensidad) {
+
+  intensidad = parseInt(intensidad);
+
+  let fondo;
+  let borde;
+  let sombra;
+
+  // DOLOR LEVE: 1 a 3
+  if (intensidad <= 3) {
+
+    fondo = "rgba(239, 68, 68, 0.20)";
+    borde = "rgba(239, 68, 68, 0.55)";
+    sombra = "rgba(239, 68, 68, 0.20)";
+
+  }
+
+  // DOLOR MODERADO: 4 a 6
+  else if (intensidad <= 6) {
+
+    fondo = "rgba(239, 68, 68, 0.45)";
+    borde = "rgba(220, 38, 38, 0.75)";
+    sombra = "rgba(239, 68, 68, 0.35)";
+
+  }
+
+  // DOLOR ALTO: 7 a 10
+  else {
+
+    fondo = "rgba(220, 38, 38, 0.72)";
+    borde = "rgba(185, 28, 28, 0.95)";
+    sombra = "rgba(220, 38, 38, 0.55)";
+
+  }
+
+  zona.style.background = fondo;
+  zona.style.border = "2px solid " + borde;
+  zona.style.boxShadow =
+    "0 0 12px " + sombra;
+}
+
+function crearZonas(){
+
+const wrapper =
+document.getElementById("anatomia-mapa");
+
+wrapper
+.querySelectorAll(".zona")
+.forEach(z=>z.remove());
+
+zonasMusculares.forEach(z=>{
+
+const div=document.createElement("div");
+
+div.className="zona";
+
+div.dataset.zona=z.nombre;
+div.title = z.nombre;
+div.style.left=z.x+"%";
+div.style.top=z.y+"%";
+
+div.style.width=z.w+"%";
+div.style.height=z.h+"%";
+
+div.addEventListener("mouseenter", (event) => {
+
+  if (div.classList.contains("activa")) {
+
+    const intensidad =
+      div.dataset.intensidad || 1;
+
+    mostrarNombreZona(
+      `${z.nombre} · Dolor ${intensidad}/10`,
+      event
+    );
+
+  } else {
+
+    mostrarNombreZona(
+      z.nombre,
+      event
+    );
+
+  }
+
+});
+div.addEventListener("mouseleave", () => {
+  ocultarNombreZona();
+});
+
+div.onclick = (event) => {
+
+  event.stopPropagation();
+
+  // Si todavía NO está seleccionada,
+  // abrimos directamente la intensidad.
+  if (!div.classList.contains("activa")) {
+
+    abrirSelectorDolorFlotante(div);
+
+    return;
+  }
+
+
+  // Si YA estaba seleccionada,
+  // volvemos a abrir su intensidad
+  // para consultar o modificar el valor.
+  abrirSelectorDolorFlotante(div);
+};
+
+wrapper.appendChild(div);
+
+});
+
+}
+
+window.addEventListener(
+"load",
+crearZonas
+);
+function mostrarNombreZona(nombre, evento) {
+
+  let tooltip =
+    document.getElementById("tooltipZona");
+
+  if (!tooltip) {
+
+    tooltip = document.createElement("div");
+    tooltip.id = "tooltipZona";
+
+    tooltip.style.cssText = `
+      position: fixed;
+      background: #0b4f8a;
+      color: white;
+      padding: 7px 10px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      z-index: 9999;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,.18);
+    `;
+
+    document.body.appendChild(tooltip);
+  }
+
+  tooltip.innerText = nombre;
+  tooltip.style.display = "block";
+
+  if (evento) {
+
+    let izquierda = evento.clientX + 15;
+    let arriba = evento.clientY - 15;
+
+    // Si no entra a la derecha,
+    // lo mostramos a la izquierda del mouse
+    if (
+      izquierda + tooltip.offsetWidth >
+      window.innerWidth - 10
+    ) {
+      izquierda =
+        evento.clientX -
+        tooltip.offsetWidth -
+        15;
+    }
+
+    tooltip.style.left =
+      izquierda + "px";
+
+    tooltip.style.top =
+      arriba + "px";
+  }
+}
+
+function ocultarNombreZona() {
+  const tooltip = document.getElementById("tooltipZona");
+
+  if (tooltip) {
+    clearTimeout(window.timerTooltipZona);
+    tooltip.style.display = "none";
+  }
+}
+
+async function cargarIdentidadJugadoraSesion() {
+  const idJugadora = localStorage.getItem("idJugadora");
+  const nombreUsuario = localStorage.getItem("nombreUsuario") || "Jugadora";
+  const email = localStorage.getItem("usuarioEmailSimulado") || "";
+
+  const inputId = document.getElementById("inputJugadoraId");
+  const nombreBox = document.getElementById("nombreJugadoraSesion");
+  const detalleBox = document.getElementById("detalleJugadoraSesion");
+  const fotoBox = document.getElementById("fotoJugadoraSesion");
+
+  if (!idJugadora) {
+    nombreBox.innerText = "No se encontró jugadora vinculada";
+    detalleBox.innerText = "Cerrá sesión y volvé a ingresar.";
+    return;
+  }
+
+  inputId.value = idJugadora;
+
+  nombreBox.innerText = nombreUsuario || "Jugadora";
+  detalleBox.innerText = `ID: ${idJugadora} · ${email}`;
+
+  try {
+    const r = await fetch(
+      `https://localhost:7012/api/jugadorasadmin/${idJugadora}`
+    );
+
+    if (!r.ok) return;
+
+    const j = await r.json();
+
+    nombreBox.innerText = `${j.apellido}, ${j.nombre}`;
+
+    detalleBox.innerText =
+      `ID: ${j.id} · Matrícula: ${j.matricula || "Sin matrícula"} · ${j.posicion || "Sin posición"}`;
+
+    if (j.fotoBase64) {
+      fotoBox.src = `data:image/jpeg;base64,${j.fotoBase64}`;
+    }
+  } catch (e) {
+    console.warn("No se pudo cargar identidad de jugadora.");
+  }
+}
+function configurarFormularioSegunMomento() {
+  const momento = sessionStorage.getItem("momentoEvaluacion");
+
+  if (momento !== "PRE" && momento !== "POST") {
+    console.warn("No hay un momento de evaluación válido.");
+    return;
+  }
+
+  const pasos = document.querySelectorAll(".paso-formulario");
+
+  pasos.forEach(paso => {
+    paso.classList.remove("activo");
+  });
+
+  const pasoInicial = momento === "PRE" ? 1 : 4;
+
+  cambiarPasoFormulario(pasoInicial);
+}
+
+</script>
+    <script>
+      const API_VALIDAR_HORA =
+        "https://localhost:7012/api/evaluaciones/validar-ventana-encuesta";
+
+      // DETALLE 3: PROCESADOR AUTOMÁTICO DE NOTIFICACIONES Y CONTROL HORARIO
+      async function verificarRestriccionHoraria() {
+        // Capturar los elementos del contenedor en el HTML
+        const contenedorForm = document.getElementById("formCuestionario");
+
+        // Crear dinámicamente la tarjeta de notificaciones móviles arriba del formulario
+        const panelNotificaciones = document.createElement("div");
+        panelNotificaciones.style.cssText =
+          "background-color: #111827; border: 1px solid #1e2937; border-radius: 12px; padding: 15px; margin-bottom: 20px; display: none;";
+        panelNotificaciones.id = "panelNotifCAT";
+
+        // Capturar el correo electrónico real de la jugadora que inició sesión
+        const emailSesion =
+          localStorage.getItem("usuarioEmailSimulado") ||
+          "jugadora@clubtalleres.com.ar";
+
+        try {
+          // Petición HTTP real al backend de C# (Puerto seguro 7012)
+          const response = await fetch(API_VALIDAR_HORA);
+          const data = await response.json();
+
+          if (data.habilitado) {
+            // Activar visualmente el panel de notificaciones automáticas
+            panelNotificaciones.style.display = "block";
+
+            let mensajeCelular = "";
+            let mensajeEmail = "";
+
+            if (data.tipo === "Pre") {
+              if (document.getElementById("tituloEncuesta")) {
+                document.getElementById("tituloEncuesta").innerText =
+                  "Cuestionario PRE-Entrenamiento / Partido";
+              }
+              mensajeCelular =
+                "📱 [ALERTA TÁCTICA CAT] Restan 30 min para iniciar la práctica. Tu reporte de Wellness previo es obligatorio.";
+              mensajeEmail =
+                "📧 Notificación despachada con éxito al correo corporativo: [" +
+                emailSesion +
+                "]";
+            } else if (data.tipo === "Post") {
+              if (document.getElementById("tituloEncuesta")) {
+                document.getElementById("tituloEncuesta").innerText =
+                  "Cuestionario POST-Entrenamiento / Partido";
+              }
+              mensajeCelular =
+                "📱 [ALERTA RENDIMIENTO CAT] Finalizó la actividad. Disponés de 20 min para asentar tu escala RPE y dolores musculares.";
+              mensajeEmail =
+                "📧 Sincronización Élite: Logs de balance de fatiga guardados y vinculados a [" +
+                emailSesion +
+                "]";
+            }
+
+            // Armar el diseño interno del panel de logs en escala de grises y azul deportivo
+            panelNotificaciones.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span style="font-size: 16px;">🔔</span>
+                            <h4 style="margin: 0; font-size: 12px; text-transform: uppercase; color: #38bdf8; letter-spacing: 0.5px;">Centro de Notificaciones Automáticas (CAT Sincro)</h4>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+                            <div style="background-color: #0c4a6e; border: 1px solid #0284c7; padding: 10px; border-radius: 6px; color: #e0f2fe;">
+                                <strong>WhatsApp/SMS [Ficha Legajo]:</strong> ${mensajeCelular}
+                            </div>
+                            <div style="background-color: #14532d; border: 1px solid #16a34a; padding: 10px; border-radius: 6px; color: #dcfce7;">
+                                <strong>Mensaje Espejo [Email Relacional]:</strong> ${mensajeEmail}
+                            </div>
+                        </div>
+                    `;
+
+            // Insertar el cartel arriba de los campos de texto para que lo vea el tribunal
+            if (contenedorForm) {
+              contenedorForm.insertBefore(
+                panelNotificaciones,
+                contenedorForm.firstChild,
+              );
+            }
+          } else {
+            // Si está fuera del rango de 30 min antes o 20 min después, el sistema bloquea la pantalla por completo
+            if (contenedorForm) {
+              contenedorForm.innerHTML = `
+                            <div style="text-align: center; padding: 40px; background-color: #161f2d; border: 1px solid #233145; border-radius: 12px; max-width: 450px; margin: 40px auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                                <span style="font-size: 45px;">⏰</span>
+                                <h3 style="color: #94a3b8; text-transform: uppercase; font-size: 13px; margin-top: 15px; letter-spacing: 1px;">Control Horario Mente en Juego</h3>
+                                <p style="font-size: 12px; color: #64748b; line-height: 1.6; margin-top: 10px; margin-bottom: 0;">${data.mensaje}</p>
+                            </div>`;
+            }
+          }
+        } catch (error) {
+          console.warn("Entorno de desarrollo local sin servidor C# activo.");
+        }
+      }
+
+      // Ejecutar la comprobación de forma obligatoria al cargar la pantalla del celular
+      
+   window.addEventListener("DOMContentLoaded", inicializarFormulario);
+   window.addEventListener(
+  "DOMContentLoaded",
+  configurarFormularioSegunMomento
+);
+   // Identificar el momento de evaluación seleccionado
+const momentoEvaluacion = sessionStorage.getItem("momentoEvaluacion");
+const sesionDeportivaId = sessionStorage.getItem("sesionDeportivaId");
+
+console.log("Momento de evaluación:", momentoEvaluacion);
+console.log("Sesión deportiva:", sesionDeportivaId);
+
+async function inicializarFormulario() {
+  await cargarIdentidadJugadoraSesion();
+  // La validación horaria ya se realiza en inicio_jugadora.html.
+// verificarRestriccionHoraria();
+  actualizarSelectorCiclo();
+
+  const inputId = document.getElementById("inputJugadoraId");
+
+  if (inputId) {
+    inputId.addEventListener("change", async () => {
+      await cargarRiesgoGps();
+      actualizarIndiceRiesgoMEJ();
+    });
+  }
+
+  await cargarRiesgoGps();
+  actualizarIndiceRiesgoMEJ();
+  activarClickCicloCircularJugadora();
+
+dibujarCicloCircularJugadora(
+ Number(
+  document.getElementById(
+   "txtCicloMenstrual"
+  )?.value || 1
+ )
+);
+}
+
+
+      const API_URL = "https://localhost:7012/api/evaluaciones"; // Reemplazar por tu puerto real de VS 2022
+      async function actualizarSelectorCiclo() {
+        const input = document.getElementById("txtCicloMenstrual");
+        const marcador = document.getElementById("marcadorCicloJugadora");
+        const info = document.getElementById("infoCicloJugadora");
+
+       if (!input || !info) return;
+
+       // Si todavía no ingresó un día, no asignar uno automáticamente
+if (input.value.trim() === "") {
+
+dibujarCicloCircularJugadora(null);
+  info.innerHTML = "Ingresá el día de tu ciclo menstrual.";
+  info.style.borderLeftColor = "#6b7280";
+
+  window.estadoCiclo = null;
+
+  return;
+}
+
+// Obtener el día ingresado
+let dia = Number(input.value);
+
+// Validar que sea un día entero entre 1 y 28
+if (!Number.isInteger(dia) || dia < 1 || dia > 28) {
+
+  info.innerHTML = "Ingresá un día válido entre 1 y 28.";
+  info.style.borderLeftColor = "#ef4444";
+
+  window.estadoCiclo = null;
+
+  return;
+}
+
+// Actualizar gráfico circular
+dibujarCicloCircularJugadora(dia);
+       
+
+        try {
+          const r = await fetch(
+            `https://localhost:7012/api/CicloMenstrual/evaluar/${dia}`,
+          );
+
+          const d = await r.json();
+
+          let color = "#22c55e";
+
+          if (d.colorSemaforo === "Rojo") color = "#ef4444";
+          if (d.colorSemaforo === "Amarillo") color = "#facc15";
+          if (d.colorSemaforo === "Naranja") color = "#f59e0b";
+          if (d.colorSemaforo === "Azul") color = "#3b82f6";
+
+          info.style.borderLeftColor = color;
+
+          info.innerHTML = `
+      <strong>Día ${d.diaCiclo} - ${d.faseNombre}</strong><br>
+      ${d.recomendacionPlanificacion}
+    `;
+        } catch (e) {
+          info.innerHTML = "No se pudo evaluar la fase del ciclo.";
+        }
+        window.estadoCiclo = {
+    fase: "",
+    riesgoLesion: "BAJO",
+    recomendacion: "",
+    intensidad: "NORMAL"
+};
+
+if (dia >= 1 && dia <= 5) {
+    estadoCiclo.fase = "Menstrual";
+    estadoCiclo.riesgoLesion = "MEDIO";
+    estadoCiclo.intensidad = "RECUPERACIÓN";
+}
+
+else if (dia >= 6 && dia <= 12) {
+    estadoCiclo.fase = "Folicular";
+    estadoCiclo.riesgoLesion = "BAJO";
+    estadoCiclo.intensidad = "FUERZA";
+}
+
+else if (dia >= 13 && dia <= 15) {
+    estadoCiclo.fase = "Ovulación";
+    estadoCiclo.riesgoLesion = "ALTO";
+    estadoCiclo.intensidad = "CONTROLADA";
+}
+
+else {
+    estadoCiclo.fase = "Lútea";
+    estadoCiclo.riesgoLesion = "MEDIO";
+    estadoCiclo.intensidad = "TÉCNICO-TÁCTICA";
+}
+actualizarAlertaDolorInteligente();
+      }
+ 
+      function dibujarCicloCircularJugadora(diaSeleccionado = null) {
+  const canvas = document.getElementById("canvasCicloCircularJugadora");
+
+  if (!canvas) return;
+
+  const c = canvas.getContext("2d");
+
+  c.clearRect(0, 0, canvas.width, canvas.height);
+
+  const cx = 130;
+  const cy = 130;
+
+  const radioExterior = 110;
+
+  const radioInterior = 62;
+
+  for (let dia = 1; dia <= 28; dia++) {
+    const inicio = ((dia - 1) / 28) * Math.PI * 2 - Math.PI / 2;
+
+    const fin = (dia / 28) * Math.PI * 2 - Math.PI / 2;
+
+    let color = "#facc15";
+
+    if (dia <= 5) color = "#f87171";
+    else if (dia <= 12) color = "#f9a8d4";
+    else if (dia <= 15) color = "#22c55e";
+
+    c.beginPath();
+
+    c.moveTo(cx, cy);
+
+    c.arc(cx, cy, radioExterior, inicio, fin);
+
+    c.closePath();
+
+    c.fillStyle = color;
+
+    c.fill();
+
+    c.strokeStyle = "#0f172a";
+
+    c.lineWidth = 2;
+
+    c.stroke();
+
+    const angulo = (inicio + fin) / 2;
+
+    const tx = cx + Math.cos(angulo) * 86;
+
+    const ty = cy + Math.sin(angulo) * 86;
+
+    c.fillStyle = "#0f172a";
+
+    c.font = "bold 8px Arial";
+
+    c.textAlign = "center";
+
+    c.fillText(dia, tx, ty);
+  }
+
+  c.beginPath();
+
+  c.arc(cx, cy, radioInterior, 0, Math.PI * 2);
+
+  c.fillStyle = "#172033";
+
+  c.fill();
+
+  c.fillStyle = "#dbeafe";
+
+  c.font = "bold 16px Arial";
+
+  c.fillText("CICLO", cx, cy - 8);
+
+  c.fillText("MENSTRUAL", cx, cy + 14);
+
+// Si no hay un día seleccionado, mostrar solamente el círculo
+if (
+  diaSeleccionado === null ||
+  diaSeleccionado === "" ||
+  !Number.isInteger(Number(diaSeleccionado)) ||
+  Number(diaSeleccionado) < 1 ||
+  Number(diaSeleccionado) > 28
+) {
+  return;
+}
+  const angSel = ((diaSeleccionado - 0.5) / 28) * Math.PI * 2 - Math.PI / 2;
+
+  const sx = cx + Math.cos(angSel) * 108;
+
+  const sy = cy + Math.sin(angSel) * 108;
+
+  c.beginPath();
+
+  c.arc(sx, sy, 15, 0, Math.PI * 2);
+
+  c.fillStyle = "#ffffff";
+
+  c.fill();
+
+  c.strokeStyle = "#1d4ed8";
+
+  c.lineWidth = 3;
+
+  c.stroke();
+
+  c.fillStyle = "#0f172a";
+
+  c.font = "bold 11px Arial";
+
+  c.fillText(diaSeleccionado, sx, sy);
+}
+
+function activarClickCicloCircularJugadora() {
+  const canvas =
+    document.getElementById("canvasCicloCircularJugadora");
+
+  const input =
+    document.getElementById("txtCicloMenstrual");
+
+  if (!canvas || !input) return;
+
+  canvas.onclick = function (e) {
+    const rect = canvas.getBoundingClientRect();
+
+    const x = e.clientX - rect.left - 130;
+
+    const y = e.clientY - rect.top - 130;
+
+    let angulo = Math.atan2(y, x);
+
+    angulo += Math.PI / 2;
+
+    if (angulo < 0)
+      angulo += Math.PI * 2;
+
+    const dia =
+      Math.floor((angulo / (Math.PI * 2)) * 28) + 1;
+
+    input.value = dia;
+
+    actualizarSelectorCiclo();
+
+    dibujarCicloCircularJugadora(dia);
+  };
+}
+   
+      
+function actualizarAlertaDolorInteligente(){
+
+const alerta=document.getElementById("alertaDolorInteligente");
+
+const activas=[
+...document.querySelectorAll(".zona.activa")
+].map(z=>z.dataset.zona);
+
+if(!activas.length){
+alerta.innerHTML=
+"Sin zonas críticas seleccionadas.";
+return;
+}
+
+let mensaje =
+"⚠️ Se registró una molestia muscular localizada. Se recomienda controlar su intensidad y realizar seguimiento preventivo.";
+
+let color="#f59e0b";
+
+/* ADUCTORES */
+
+if(
+activas.some(z=>z.includes("Aductor"))
+){
+mensaje=
+"⚠️ Molestia en aductores. Recomendar control de carga, cambios de dirección y seguimiento preventivo.";
+color="#f59e0b";
+}
+
+/* ISQUIOS */
+
+if(
+activas.some(z=>z.includes("Isquio"))
+){
+mensaje=
+"⚠️ Zona de riesgo para sprint y aceleración. Evaluar fatiga neuromuscular.";
+color="#ef4444";
+}
+
+/* CUADRICEPS */
+
+if(
+activas.some(z=>z.includes("Cuádriceps"))
+){
+mensaje=
+"⚠️ Molestia en extensores de rodilla. Revisar volumen e intensidad.";
+color="#f97316";
+}
+
+/* LUMBAR */
+
+if(
+activas.some(z=>z.includes("Lumbar"))
+){
+mensaje=
+"⚠️ Sobrecarga lumbar. Controlar estabilidad central.";
+color="#dc2626";
+}
+
+/* GLUTEO + ISQUIO */
+
+if(
+activas.some(z=>z.includes("Glúteo")) &&
+activas.some(z=>z.includes("Isquio"))
+){
+mensaje=
+"🚨 Cadena posterior comprometida. Evaluar riesgo de sobrecarga.";
+color="#991b1b";
+}
+
+/* HOMBRO */
+
+if(
+activas.some(z=>z.includes("Hombro"))
+){
+mensaje=
+"ℹ️ Registrar mecanismo del dolor y movilidad.";
+color="#2563eb";
+}
+
+// VERIFICAR LA INTENSIDAD MÁXIMA DEL DOLOR LOCALIZADO
+
+const intensidadMaxima = Array.from(
+  document.querySelectorAll(".zona.activa")
+).reduce((maximo, zona) => {
+
+  const intensidad = Number(zona.dataset.intensidad);
+
+  if (
+    !Number.isFinite(intensidad) ||
+    intensidad < 1 ||
+    intensidad > 10
+  ) {
+    return maximo;
+  }
+
+  return Math.max(maximo, intensidad);
+
+}, 0);
+
+
+// ALERTA ESPECIAL PARA DOLOR MUY INTENSO
+
+if (intensidadMaxima >= 9) {
+
+  mensaje = `
+    <strong>⚠️ ALERTA: DOLOR MUSCULAR MUY INTENSO</strong>
+    <br><br>
+    Se registró una intensidad de dolor de
+    <strong>${intensidadMaxima}/10</strong>.
+    <br><br>
+    Se recomienda informar al cuerpo médico
+    para una evaluación antes de participar
+    en actividades deportivas intensas.
+  `;
+
+  color = "#dc2626";
+
+}
+
+
+// MOSTRAR EL MENSAJE Y SU COLOR
+
+alerta.innerHTML = mensaje;
+
+alerta.style.borderLeft = `6px solid ${color}`;
+const riesgo = calcularRiesgoLesionLocal();
+
+alerta.innerHTML += `
+  <br><br>
+  <strong>Riesgo preliminar:</strong> 
+  <span style="color:${riesgo.color}; font-weight:900;">
+    ${riesgo.nivel}
+  </span>
+  <br>
+  <small>${riesgo.motivos.join(", ") || "sin factores críticos combinados"}</small>
+`;
+}
+function calcularRiesgoLesionLocal() {
+
+  const zonasActivas = Array.from(
+    document.querySelectorAll(".zona.activa")
+  );
+
+  const zonas = zonasActivas.map(z => z.dataset.zona || "");
+
+  const rpe = parseInt(
+    document.getElementById("slRpe")?.value || 0
+  );
+
+  const dolor = parseInt(
+    document.getElementById("slDoms")?.value || 5
+  );
+
+  const diaCiclo = parseInt(
+    document.getElementById("txtCicloMenstrual")?.value || 0
+  );
+
+  let puntaje = 0;
+  let motivos = [];
+
+  // 1. ZONAS MUSCULARES AFECTADAS
+
+  const zonaRiesgoInferior = zonas.some(z =>
+    z.includes("Aductor") ||
+    z.includes("Isquiosural") ||
+    z.includes("Cuádriceps") ||
+    z.includes("Gemelo") ||
+    z.includes("Tibial")
+  );
+
+  const cadenaPosterior =
+    zonas.some(z => z.includes("Isquiosural")) &&
+    zonas.some(z => z.includes("Glúteo"));
+
+  if (zonaRiesgoInferior) {
+    puntaje += 2;
+    motivos.push("molestias en tren inferior");
+  }
+
+  if (cadenaPosterior) {
+    puntaje += 3;
+    motivos.push("cadena posterior comprometida");
+  }
+
+  // 2. INTENSIDAD DEL DOLOR LOCALIZADO
+
+  const intensidadMaxima = zonasActivas.reduce(
+    (maximo, zona) => {
+
+      const intensidad = Number(
+        zona.dataset.intensidad
+      );
+
+      if (
+        !Number.isFinite(intensidad) ||
+        intensidad < 1 ||
+        intensidad > 10
+      ) {
+        return maximo;
+      }
+
+      return Math.max(maximo, intensidad);
+    },
+    0
+  );
+
+  if (intensidadMaxima >= 4 && intensidadMaxima <= 6) {
+    puntaje += 1;
+    motivos.push("dolor localizado moderado");
+  }
+
+  if (intensidadMaxima >= 7 && intensidadMaxima <= 8) {
+    puntaje += 2;
+    motivos.push("dolor localizado intenso");
+  }
+
+  if (intensidadMaxima >= 9) {
+    puntaje += 3;
+    motivos.push("dolor localizado muy intenso");
+  }
+
+  // 3. ESFUERZO Y DOLOR GENERAL
+
+  if (rpe >= 8) {
+    puntaje += 2;
+    motivos.push("RPE alto");
+  }
+
+  if (dolor <= 2) {
+    puntaje += 2;
+    motivos.push("dolor muscular general elevado");
+  }
+
+  // 4. CICLO MENSTRUAL
+  // Factor exploratorio del modelo, no predictor clínico validado.
+
+  if (diaCiclo >= 12 && diaCiclo <= 15) {
+    puntaje += 1;
+    motivos.push("día del ciclo: seguimiento individual");
+  }
+
+  // 5. CLASIFICACIÓN PRELIMINAR
+
+  let nivel = "Bajo";
+  let color = "#22c55e";
+
+  if (puntaje >= 3) {
+    nivel = "Moderado";
+    color = "#f59e0b";
+  }
+
+  if (puntaje >= 6) {
+    nivel = "Alto";
+    color = "#ef4444";
+  }
+
+  return {
+    nivel,
+    puntaje,
+    color,
+    motivos
+  };
+}
+function actualizarTextoZonas() {
+  const box = document.getElementById("zonasSeleccionadasTexto");
+
+  if (!box) return;
+
+  const zonas = Array.from(
+    document.querySelectorAll(".zona.activa")
+  );
+
+  if (!zonas.length) {
+    box.innerHTML = `
+      <strong>Zonas seleccionadas:</strong> ninguna
+    `;
+    return;
+  }
+
+  box.innerHTML = `
+    <strong>Zonas seleccionadas (${zonas.length}):</strong>
+    <br><br>
+    ${zonas.map((z) => {
+      const nombre = z.dataset.zona;
+      const intensidad = z.dataset.intensidad || 1;
+
+      return `• ${nombre} (${intensidad}/10)`;
+    }).join("<br>")}
+  `;
+}
+let zonaDolorSeleccionada = "";
+
+function renderizarIntensidadDolor() {
+  const box = document.getElementById("contenedorIntensidadDolor");
+
+  if (!box) return;
+
+  const activas = [
+    ...document.querySelectorAll(".zona.activa")
+  ];
+
+  if (!activas.length) {
+    box.innerHTML = "";
+    zonaDolorSeleccionada = "";
+    return;
+  }
+
+  // Si la zona actual ya no está seleccionada,
+  // tomamos automáticamente la primera.
+  const existeZonaActual = activas.some(
+    z => z.dataset.zona === zonaDolorSeleccionada
+  );
+
+  if (!existeZonaActual) {
+    zonaDolorSeleccionada = activas[0].dataset.zona;
+  }
+
+  const zonaActual = activas.find(
+    z => z.dataset.zona === zonaDolorSeleccionada
+  );
+
+  const valorActual =
+    zonaActual?.dataset.intensidad || 1;
+
+  box.innerHTML = `
+    <div
+      style="
+        margin-top:10px;
+        padding:12px;
+        background:#f6f7fb;
+        border:1px solid #d0d5dd;
+        border-radius:12px;
+      "
+    >
+
+      <div
+        style="
+          font-size:11px;
+          font-weight:900;
+          color:#667085;
+          text-transform:uppercase;
+          margin-bottom:6px;
+        "
+      >
+        Ajustar dolor por zona
+      </div>
+
+      <select
+        id="selectorZonaDolor"
+        onchange="seleccionarZonaDolor(this.value)"
+        style="
+          width:100%;
+          padding:9px 10px;
+          border:1px solid #d0d5dd;
+          border-radius:8px;
+          background:#ffffff;
+          color:#1f2937;
+          font-size:12px;
+          font-weight:700;
+          outline:none;
+          margin-bottom:10px;
+        "
+      >
+        ${activas.map(z => `
+          <option
+            value="${z.dataset.zona}"
+            ${z.dataset.zona === zonaDolorSeleccionada ? "selected" : ""}
+          >
+            ${z.dataset.zona}
+          </option>
+        `).join("")}
+      </select>
+
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-bottom:3px;
+        "
+      >
+        <span
+          style="
+            font-size:12px;
+            font-weight:800;
+            color:#1f2937;
+          "
+        >
+          Intensidad
+        </span>
+
+        <span
+          id="valorIntensidadZona"
+          style="
+            font-size:13px;
+            font-weight:900;
+            color:#0b4f8a;
+          "
+        >
+          ${valorActual}/10
+        </span>
+      </div>
+
+      <input
+        id="sliderIntensidadZona"
+        type="range"
+        min="0"
+        max="10"
+        step="1"
+        value="${valorActual}"
+        style="width:100%;"
+        oninput="actualizarIntensidadZona(this.value)"
+      />
+
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          font-size:10px;
+          color:#667085;
+          margin-top:2px;
+        "
+      >
+        <span>0: Sin dolor</span>
+        <span>10: Dolor máximo</span>
+      </div>
+
+    </div>
+  `;
+}
+
+
+function seleccionarZonaDolor(nombreZona) {
+  zonaDolorSeleccionada = nombreZona;
+
+  const zona = [
+    ...document.querySelectorAll(".zona.activa")
+  ].find(
+    z => z.dataset.zona === nombreZona
+  );
+
+  if (!zona) return;
+
+  const valor =
+    zona.dataset.intensidad || 1;
+
+  const slider =
+    document.getElementById("sliderIntensidadZona");
+
+  const texto =
+    document.getElementById("valorIntensidadZona");
+
+  if (slider) {
+    slider.value = valor;
+  }
+
+  if (texto) {
+    texto.innerText = valor + "/10";
+  }
+}
+
+
+function actualizarIntensidadZona(valor) {
+
+  const zona = [
+    ...document.querySelectorAll(".zona.activa")
+  ].find(
+    z => z.dataset.zona === zonaDolorSeleccionada
+  );
+
+  if (!zona) return;
+
+  // Guardar intensidad en la zona
+  zona.dataset.intensidad = valor;
+
+  // Actualizar número visible
+  const texto =
+    document.getElementById("valorIntensidadZona");
+
+  if (texto) {
+    texto.innerText = valor + "/10";
+  }
+
+  // Actualizar listado superior
+  actualizarTextoZonas();
+
+  // Actualizar cálculos
+  actualizarAlertaDolorInteligente();
+  actualizarIndiceRiesgoMEJ();
+}
+   
+   
+   
+   
+      async function enviarReporteDiario(event) {
+        event.preventDefault();
+        if (window.enviandoEvaluacionMEJ) {
+  return;
+}
+       const zonasSeleccionadas = Array.from(
+  document.querySelectorAll(".zona.activa")
+).map((z) => ({
+  ZonaMuscular: z.dataset.zona,
+  IntensidadDolor: parseInt(z.dataset.intensidad || 1),
+}));
+       
+       const momento = sessionStorage.getItem("momentoEvaluacion");
+const sesionId = Number(sessionStorage.getItem("sesionDeportivaId"));
+
+if (
+  (momento !== "PRE" && momento !== "POST") ||
+  !Number.isInteger(sesionId) ||
+  sesionId <= 0
+) {
+  mostrarModalMEJ(
+    "error",
+    "Evaluación no válida",
+    "No se encontró una sesión deportiva válida. Volvé al inicio."
+  );
+  return;
+}
+
+const idJugadora = Number(
+  document.getElementById("inputJugadoraId").value
+);
+
+if (!Number.isInteger(idJugadora) || idJugadora <= 0) {
+  mostrarModalMEJ(
+    "error",
+    "Jugadora no identificada",
+    "Cerrá sesión y volvé a ingresar."
+  );
+  return;
+}
+
+const jsonPayload = {
+  IdJugadora: idJugadora,
+  TipoSesion: "Entrenamiento",
+  EstadoAsistencia: "Completó",
+  MomentoEvaluacion: momento,
+  SesionDeportivaId: sesionId
+};
+
+if (momento === "PRE") {
+
+  const diaCiclo = document.getElementById(
+    "txtCicloMenstrual"
+  ).value.trim();
+
+  jsonPayload.Estres = Number(
+    document.getElementById("slEstres").value
+  );
+
+  jsonPayload.Humor = Number(
+    document.getElementById("slHumor").value
+  );
+
+  jsonPayload.Sueño = Number(
+    document.getElementById("slSueno").value
+  );
+
+  jsonPayload.DolorDoms = Number(
+    document.getElementById("slDoms").value
+  );
+
+  jsonPayload.RecuperacionTqr = Number(
+    document.getElementById("slRecuperacion").value
+  );
+
+  jsonPayload.DiaCicloMenstrual =
+    diaCiclo === "" ? null : Number(diaCiclo);
+
+  jsonPayload.ZonasDeDolor = zonasSeleccionadas;
+
+} else {
+
+  jsonPayload.EsfuerzoRpe = Number(
+    document.getElementById("slRpe").value
+  );
+
+  jsonPayload.MinutosSesion = Number(
+    document.getElementById("txtMinutos").value
+  );
+  // Las molestias musculares también pertenecen al reporte POST.
+  jsonPayload.ZonasDeDolor = zonasSeleccionadas;
+
+}
+// VALIDAR LOS DATOS DE LA EVALUACIÓN POST
+if (momento === "POST") {
+
+  if (
+    !Number.isInteger(jsonPayload.MinutosSesion) ||
+    jsonPayload.MinutosSesion < 10 ||
+    jsonPayload.MinutosSesion > 180
+  ) {
+    mostrarModalMEJ(
+      "error",
+      "Duración obligatoria",
+      "Ingresá una duración válida entre 10 y 180 minutos."
+    );
+    return;
+  }
+
+  if (
+    !Number.isInteger(jsonPayload.EsfuerzoRpe) ||
+    jsonPayload.EsfuerzoRpe < 0 ||
+    jsonPayload.EsfuerzoRpe > 10
+  ) {
+    mostrarModalMEJ(
+      "error",
+      "RPE no válido",
+      "Seleccioná un esfuerzo entre 0 y 10."
+    );
+    return;
+  }
+
+}
+// VALIDAR LOS DATOS DE LA EVALUACIÓN PRE
+if (momento === "PRE") {
+
+  const indicadores = [
+    jsonPayload.Estres,
+    jsonPayload.Humor,
+    jsonPayload.Sueño,
+    jsonPayload.DolorDoms,
+    jsonPayload.RecuperacionTqr
+  ];
+
+  const indicadoresValidos = indicadores.every(
+    valor => Number.isInteger(valor) && valor >= 1 && valor <= 5
+  );
+
+  if (!indicadoresValidos) {
+    mostrarModalMEJ(
+      "error",
+      "Evaluación PRE incompleta",
+      "Completá los cinco indicadores de bienestar con valores entre 1 y 5."
+    );
+    return;
+  }
+
+  const diaCiclo = jsonPayload.DiaCicloMenstrual;
+
+  if (
+    diaCiclo !== null &&
+    (!Number.isInteger(diaCiclo) || diaCiclo < 1 || diaCiclo > 28)
+  ) {
+    mostrarModalMEJ(
+      "error",
+      "Día del ciclo no válido",
+      "Ingresá un día del ciclo entre 1 y 28, o dejá el campo vacío."
+    );
+    return;
+  }
+
+}
+// No registrar datos personales ni de salud en la consola.
+window.enviandoEvaluacionMEJ = true;
+        try {
+          const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+  "Content-Type": "application/json",
+  "Authorization": `Bearer ${localStorage.getItem("token")}`
+},
+            body: JSON.stringify(jsonPayload),
+          });
+
+         if (response.ok) {
+mostrarModalMEJ(
+  "exito",
+  "Reporte guardado",
+  "Tu reporte diario fue registrado correctamente."
+);
+
+    document.getElementById("formCuestionario").reset();
+
+    limpiarZonasDolor();
+
+    actualizarSelectorCiclo();
+
+} else {
+
+  let mensajeError = "No se pudo guardar la evaluación.";
+
+  try {
+    const error = await response.json();
+
+    console.error("Error API evaluaciones", response.status, error);
+    mensajeError =
+      error.mensaje ||
+      error.title ||
+      error.detail ||
+      mensajeError;
+
+    if (error.errors) {
+      const detalles = Object.values(error.errors)
+        .flat()
+        .join("\n");
+
+      if (detalles) {
+        mensajeError += "\n" + detalles;
+      }
+    }
+
+  } catch (error) {
+    console.error("No se pudo interpretar la respuesta:", error);
+  }
+
+  if (response.status === 401) {
+    mensajeError = "Tu sesión expiró o no es válida. Volvé a iniciar sesión.";
+  }
+
+  if (response.status === 403) {
+    mensajeError = "No tenés permisos para registrar esta evaluación.";
+  }
+
+  mostrarModalMEJ(
+    "error",
+    "No se pudo guardar",
+    mensajeError
+  );
+
+}
+        } catch (error) {
+  console.error("Fallo de conexión al enviar evaluación", error);
+  mostrarModalMEJ(
+    "alerta",
+    "API no disponible",
+    "No se pudo conectar con el servidor de Mente en Juego."
+  );
+} finally {
+  window.enviandoEvaluacionMEJ = false;
+}
+}
+function limpiarZonasDolor() {
+
+  document.querySelectorAll(".zona").forEach((zona) => {
+
+    // Quitar selección
+    zona.classList.remove("activa");
+
+    // Eliminar intensidad guardada
+    delete zona.dataset.intensidad;
+
+    // Eliminar color aplicado
+    zona.style.backgroundColor = "";
+    zona.style.borderColor = "";
+    zona.style.boxShadow = "";
+
+  });
+
+  // Cerrar selector flotante si está abierto
+  const selector = document.getElementById("selectorDolorFlotante");
+
+  if (selector) {
+    selector.style.display = "none";
+  }
+
+  zonaFlotanteActual = null;
+
+  // Actualizar indicadores
+  actualizarTextoZonas();
+  renderizarIntensidadDolor();
+  actualizarAlertaDolorInteligente();
+  actualizarIndiceRiesgoMEJ();
+
+}
+
+function calcularIndiceRiesgoMEJ() {
+  const zonas = Array.from(document.querySelectorAll(".zona.activa"))
+    .map(z => z.dataset.zona);
+
+  const rpe = parseInt(document.getElementById("slRpe").value || 0);
+  const doms = parseInt(document.getElementById("slDoms").value || 5);
+  const diaCiclo = parseInt(document.getElementById("txtCicloMenstrual").value || 1);
+
+  let riesgo = 0;
+  let factores = [];
+
+  const trenInferior = zonas.some(z =>
+    z.includes("Aductor") ||
+    z.includes("Cuádriceps") ||
+    z.includes("Isquiosural") ||
+    z.includes("Gemelo") ||
+    z.includes("Tibial") ||
+    z.includes("Glúteo")
+  );
+
+  const cadenaPosterior =
+    zonas.some(z => z.includes("Isquiosural")) &&
+    zonas.some(z => z.includes("Glúteo"));
+
+// DOLOR LOCALIZADO E INTENSIDAD POR ZONA
+
+const zonasActivas = Array.from(
+  document.querySelectorAll(".zona.activa")
+);
+
+if (zonasActivas.length >= 1) {
+  riesgo += 10;
+  factores.push("dolor localizado");
+}
+
+// Obtenemos la intensidad máxima registrada
+const intensidadMaxima = zonasActivas.reduce(
+  (maximo, zona) => {
+    const intensidad = Number(zona.dataset.intensidad);
+
+    if (
+      !Number.isFinite(intensidad) ||
+      intensidad < 1 ||
+      intensidad > 10
+    ) {
+      return maximo;
+    }
+
+    return Math.max(maximo, intensidad);
+  },
+  0
+);
+
+// Puntuación adicional según intensidad
+if (intensidadMaxima >= 4 && intensidadMaxima <= 6) {
+  riesgo += 5;
+  factores.push("dolor localizado moderado");
+}
+
+if (intensidadMaxima >= 7 && intensidadMaxima <= 8) {
+  riesgo += 10;
+  factores.push("dolor localizado intenso");
+}
+
+if (intensidadMaxima >= 9) {
+  riesgo += 15;
+  factores.push("dolor localizado muy intenso");
+}
+
+  if (zonas.length >= 3) {
+    riesgo += 15;
+    factores.push("múltiples zonas con molestias");
+  }
+
+  if (trenInferior) {
+    riesgo += 15;
+    factores.push("tren inferior comprometido");
+  }
+
+  if (cadenaPosterior) {
+    riesgo += 15;
+    factores.push("cadena posterior comprometida");
+  }
+
+  if (rpe >= 7) {
+    riesgo += 15;
+    factores.push("RPE elevado");
+  }
+
+  if (rpe >= 9) {
+    riesgo += 10;
+    factores.push("RPE muy alto");
+  }
+
+  if (doms <= 2) {
+    riesgo += 15;
+    factores.push("dolor muscular alto");
+  }
+
+  if (diaCiclo >= 13 && diaCiclo <= 15) {
+    riesgo += 10;
+    factores.push("fase ovulatoria: control preventivo");
+  }
+if(datosGps){
+
+if(datosGps.playerLoad>400){
+
+riesgo+=15;
+factores.push("player load elevado");
+
+}
+
+if(datosGps.distanciaKm>6){
+
+riesgo+=10;
+factores.push("volumen alto");
+
+}
+
+if(datosGps.cambiosDireccion>20){
+
+riesgo+=10;
+factores.push("alta carga neuromuscular");
+
+}
+
+if(
+datosGps.aceleraciones>15 ||
+datosGps.desaceleraciones>15
+){
+
+riesgo+=10;
+
+factores.push(
+"fatiga mecánica"
+);
+
+}
+
+}
+  riesgo = Math.min(Math.round(riesgo), 100);
+
+  let nivel = "BAJO";
+  let color = "#22c55e";
+
+  if (riesgo >= 35) {
+    nivel = "MODERADO";
+    color = "#f59e0b";
+  }
+
+  if (riesgo >= 65) {
+    nivel = "ALTO";
+    color = "#ef4444";
+  }
+
+  return { riesgo, nivel, color, factores };
+}
+function actualizarIndiceRiesgoMEJ() {
+  const box = document.getElementById("riesgoDeportivoMEJ");
+  if (!box) return;
+
+  const r = calcularIndiceRiesgoMEJ();
+
+  box.style.borderLeftColor = r.color;
+
+  let recomendacion = "Continuar con monitoreo habitual.";
+
+  if (r.nivel === "MODERADO") {
+    recomendacion =
+      "Recomendar control de carga, seguimiento del cuerpo técnico y revisión previa a trabajos intensos.";
+  }
+
+  if (r.nivel === "ALTO") {
+    recomendacion =
+      "Alerta alta: sugerir evaluación del cuerpo médico/deportivo antes de aumentar intensidad.";
+  }
+
+  box.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+      <strong>Índice de Riesgo Deportivo MEJ</strong>
+      <span style="
+        background:${r.color};
+        color:white;
+        padding:4px 10px;
+        border-radius:999px;
+        font-size:11px;
+        font-weight:900;
+      ">
+        ${r.nivel}
+      </span>
+    </div>
+
+    <div style="font-size:28px;font-weight:900;color:${r.color};margin-top:8px;">
+      ${r.riesgo}/100
+    </div>
+
+    <div style="
+      width:100%;
+      height:10px;
+      background:#e4e7ec;
+      border-radius:999px;
+      overflow:hidden;
+      margin:10px 0;
+    ">
+      <div style="
+        width:${r.riesgo}%;
+        height:100%;
+        background:${r.color};
+        border-radius:999px;
+      "></div>
+    </div>
+
+    <small>
+      <strong>Factores:</strong>
+      ${r.factores.join(", ") || "sin factores críticos detectados"}
+    </small>
+
+    <div style="
+      margin-top:10px;
+      padding:10px;
+      background:#f6f7fb;
+      border-radius:10px;
+      border:1px solid #d0d5dd;
+      font-size:12px;
+      line-height:1.5;
+    ">
+      <strong>Recomendación:</strong><br>
+      ${recomendacion}
+    </div>
+  `;
+}
+async function cargarRiesgoGps() {
+  try {
+    const id = parseInt(document.getElementById("inputJugadoraId").value);
+
+    const res = await fetch(
+      `https://localhost:7012/api/Riesgo/riesgo-gps/${id}`
+    );
+
+    const data = await res.json();
+
+    datosGps = data.disponible ? data : null;
+
+    actualizarIndiceRiesgoMEJ();
+  } catch (err) {
+    datosGps = null;
+    actualizarIndiceRiesgoMEJ();
+  }
+}
+function mostrarModalMEJ(tipo, titulo, mensaje) {
+  const modal = document.getElementById("modalMEJ");
+  const barra = document.getElementById("modalMEJBarra");
+  const icono = document.getElementById("modalMEJIcono");
+  const tituloBox = document.getElementById("modalMEJTitulo");
+  const mensajeBox = document.getElementById("modalMEJMensaje");
+
+  const estilos = {
+    exito: { color: "bg-green-500", icono: "✅" },
+    error: { color: "bg-red-500", icono: "🚫" },
+    alerta: { color: "bg-yellow-500", icono: "⚠️" },
+    info: { color: "bg-blue-600", icono: "ℹ️" },
+  };
+
+  const estilo = estilos[tipo] || estilos.info;
+
+  barra.className = `h-2 ${estilo.color}`;
+  icono.innerText = estilo.icono;
+  tituloBox.innerText = titulo;
+  mensajeBox.innerText = mensaje;
+
+  modal.classList.remove("hidden");
+}
+
+function cerrarModalMEJ() {
+  document.getElementById("modalMEJ").classList.add("hidden");
+}
+
+function cerrarSesion() {
+  localStorage.removeItem("sesionActiva");
+  localStorage.removeItem("usuarioEmailSimulado");
+  localStorage.removeItem("usuarioId");
+  localStorage.removeItem("nombreUsuario");
+  localStorage.removeItem("rolUsuario");
+  localStorage.removeItem("idJugadora");
+  localStorage.removeItem("especialidadMedico");
+
+  sessionStorage.clear();
+
+  window.location.replace("login.html");
+}
+window.addEventListener("pageshow", function () {
+  if (localStorage.getItem("sesionActiva") !== "true") {
+    window.location.replace("login.html");
+  }
+});
+
+function adaptarFormularioAlModal() {
+  if (window.self !== window.top) {
+    document.body.classList.add("en-modal");
+    const encabezado = document.getElementById(
+      "encabezadoFormularioJugadora"
+    );
+
+    if (encabezado) {
+      encabezado.style.display = "none";
+    }
+  }
+}
+
+window.addEventListener(
+  "DOMContentLoaded",
+  adaptarFormularioAlModal
+);
+
+
+    </script>
+  <script src="mej-institucional.js"></script>
+<script src="mej-cabecera-unica.js?v=3"></script>
+</body>
+</html>

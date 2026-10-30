@@ -1,0 +1,1 @@
+V3: misma cabecera para panel técnico, área médica, administración, inicio y formulario de jugadoras. Reutiliza el mismo escudo y el nodo usuarioBarra. No modifica API, base de datos ni permisos. Probar navegación y cierre de sesión en cada rol antes de reemplazar producción. Login conserva diseño propio.

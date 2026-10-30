@@ -1,0 +1,49 @@
+/* Mente en Juego - ajustes responsive compartidos. No altera eventos ni API. */
+:root{--mej-responsive-primary:#104ca9;--mej-responsive-bg:#f2f5fb}
+html{width:100%;-webkit-text-size-adjust:100%}
+body{max-width:100%;min-width:0}
+img,video,svg,canvas{max-width:100%}
+button,input,select,textarea{min-width:0}
+/* Una sola cabecera institucional: misma alineacion en todos los perfiles. */
+#mej-header-global .mej-header-inner{max-width:100%;width:100%;margin:0 auto}
+#mej-header-global .mej-header-actions{margin-left:auto}
+#mej-header-global .mej-header-brand{max-width:100%}
+#mej-header-global .mej-header-nombre{overflow-wrap:normal}
+/* Contenedores de tablas: desplazamiento horizontal sin achicar las columnas. */
+.table-responsive,.table-responsive-sm,.table-responsive-md,[class*="table-scroll"]{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* Navegacion y formularios: evitar controles que sobresalgan del viewport. */
+@media(max-width:991.98px){
+  body:not(.mej-login) main,body:not(.mej-login) .container,body:not(.mej-login) .container-fluid{max-width:100%;min-width:0}
+  body:not(.mej-login) :is(.row,.d-flex){min-width:0}
+  body:not(.mej-login) :is(input,select,textarea){max-width:100%}
+  /* Aplica a tablas directas en contenedores sin introducir nodos nuevos. */
+  body:not(.mej-login) :is(div,section,article):has(> table){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  body:not(.mej-login) table{width:max-content;min-width:100%;max-width:none}
+  body:not(.mej-login) table :is(th,td){white-space:nowrap}
+  body:not(.mej-login) table :is(th,td) button{white-space:nowrap}
+}
+@media(max-width:650px){
+  #mej-header-global .mej-header-inner{display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;flex-wrap:wrap!important;gap:8px!important;padding:10px 12px!important}
+  #mej-header-global .mej-header-brand{flex:0 1 auto;gap:8px!important}
+  #mej-header-global .mej-header-escudo{width:30px!important;height:36px!important}
+  #mej-header-global .mej-header-nombre{font-size:clamp(13px,3.8vw,17px)!important;letter-spacing:0!important}
+  #mej-header-global .mej-header-actions{flex:0 1 auto;gap:8px!important;justify-content:flex-end!important}
+  #mej-header-global .mej-header-usuario{font-size:11px!important;max-width:130px;overflow-wrap:anywhere}
+  #mej-header-global .mej-header-salir{font-size:10px!important;min-height:38px!important;padding:8px 10px!important}
+  body:not(.mej-login) :is(input,select,textarea){font-size:16px}
+  body:not(.mej-login) :is(.modal-dialog,.mej-dialog){max-width:calc(100vw - 24px);margin-left:auto;margin-right:auto}
+  body:not(.mej-login) :is(.modal-body,.mej-dialog){overflow-wrap:anywhere}
+  body:not(.mej-login) :is(.modal-body,.mej-dialog) :is(input,select,textarea){max-width:100%}
+}
+@media(max-width:420px){
+  #mej-header-global .mej-header-inner{gap:8px!important}
+  #mej-header-global .mej-header-brand{width:100%;justify-content:flex-start!important}
+  #mej-header-global .mej-header-actions{width:100%;justify-content:space-between!important;margin-left:0!important}
+  #mej-header-global .mej-header-usuario{max-width:55%}
+  .mej-dialog-actions{gap:8px}
+}
+@media(max-width:650px){
+  /* Acceso: cuatro perfiles en dos filas legibles en celulares. */
+  .mej-login .tabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important}
+  .mej-login .tab{min-width:0!important;overflow-wrap:anywhere}
+}

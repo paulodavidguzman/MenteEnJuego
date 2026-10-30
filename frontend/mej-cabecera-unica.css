@@ -1,0 +1,15 @@
+/* Cabecera institucional idéntica en todos los módulos internos */
+:root {--mej-azul:#104ca9;--mej-azul-oscuro:#082e67;--mej-fondo:#f2f5fb;--mej-borde:#cbd7e7}
+html,body{max-width:100%;}body{background-color:var(--mej-fondo)}
+#mej-header-global.mej-header-global{position:relative!important;z-index:100!important;display:block!important;width:100%!important;min-height:66px!important;height:auto!important;padding:0!important;margin:0!important;background:var(--mej-azul)!important;color:#fff!important;border:0!important;box-shadow:0 2px 7px #0a24402b!important}
+.mej-header-inner{width:100%;max-width:100%;min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:9px 24px;box-sizing:border-box}
+.mej-header-brand{display:flex;align-items:center;gap:13px;min-width:0;flex-shrink:0}
+.mej-header-escudo{display:block!important;width:38px!important;height:45px!important;max-width:38px!important;object-fit:contain!important;border:0!important;background:none!important;padding:0!important;margin:0!important}
+.mej-header-nombre{font-family:Arial,'Segoe UI',sans-serif!important;color:#fff!important;font-size:20px!important;font-weight:800!important;letter-spacing:.65px!important;line-height:1.2!important;white-space:nowrap!important}
+.mej-header-actions{display:flex;align-items:center;justify-content:flex-end;gap:16px;min-width:0}
+.mej-header-usuario,#mej-usuario-contenedor,#usuarioBarra{font-family:Arial,'Segoe UI',sans-serif!important;color:#fff!important;font-size:12px!important;font-weight:600!important;white-space:normal!important;text-align:right!important}
+#lblPerfilEspecialidad{color:#fff!important;font-size:11px!important}
+.mej-header-salir{appearance:none!important;border:1px solid #d8e5ff!important;background:#fff!important;color:var(--mej-azul-oscuro)!important;border-radius:7px!important;padding:10px 14px!important;min-height:38px!important;font-size:11px!important;font-weight:800!important;white-space:nowrap!important;cursor:pointer!important;line-height:1.2!important}
+.mej-header-salir:hover{background:#e7f0ff!important}
+@media(max-width:650px){.mej-header-inner{padding:10px 12px;gap:8px;flex-wrap:wrap}.mej-header-escudo{width:30px!important;height:37px!important}.mej-header-nombre{font-size:15px!important}.mej-header-actions{margin-left:auto;gap:7px}.mej-header-usuario{max-width:120px;overflow-wrap:anywhere}.mej-header-salir{font-size:10px!important;padding:8px!important}}
+@media(max-width:380px){.mej-header-inner{justify-content:center}.mej-header-actions{width:100%;justify-content:space-between}.mej-header-usuario{max-width:65%}}

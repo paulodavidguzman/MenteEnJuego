@@ -1,0 +1,37 @@
+﻿namespace MenteEnJuego.Dominio.Entidades
+{
+    public class IndicadorPlanificado
+    {
+        public int Id { get; set; }
+
+        public int PlanificacionTecnicaId { get; set; }
+
+        public string Nombre { get; set; } =
+            string.Empty;
+
+        public string Categoria { get; set; } =
+            string.Empty;
+
+        public string? UnidadMedida { get; set; }
+
+        public decimal? ValorObjetivo { get; set; }
+
+        public decimal? ValorMinimo { get; set; }
+
+        public decimal? ValorMaximo { get; set; }
+
+        public string FuenteDatos { get; set; } =
+            string.Empty;
+
+        public bool EsObligatorio { get; set; }
+
+        public int Orden { get; set; }
+
+        public PlanificacionTecnica
+            PlanificacionTecnica
+        {
+            get;
+            set;
+        } = null!;
+    }
+}

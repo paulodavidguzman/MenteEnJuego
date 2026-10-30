@@ -1,0 +1,72 @@
+/* Mente en Juego — tema institucional compartido (paleta del Administrador). */
+:root { --mej-azul-900:#0b2d5c; --mej-azul-800:#123f78; --mej-azul-600:#0b4dad; --mej-azul-100:#eaf2fc; --mej-fondo:#f3f6fb; --mej-borde:#d8e2f0; --mej-texto:#182b46; --mej-radio:12px; }
+*, *::before, *::after { box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body { max-width:100%; }
+button, input, select, textarea { font:inherit; }
+button { touch-action:manipulation; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline:3px solid #80b6f7; outline-offset:2px; }
+img, video, canvas { max-width:100%; }
+input, select, textarea { max-width:100%; }
+/* Unifica controles sin alterar el layout específico de cada módulo. */
+.btn-primary, button.btn-primary, .bg-blue-600 { background-color:var(--mej-azul-600) !important; border-color:var(--mej-azul-600) !important; }
+.btn-primary:hover, button.btn-primary:hover { background-color:var(--mej-azul-800) !important; }
+.mej-dialog-backdrop { position:fixed; inset:0; z-index:2147483647; background:rgba(6,24,51,.68); display:flex; align-items:center; justify-content:center; padding:16px; overflow:auto; backdrop-filter:blur(3px); }
+.mej-dialog { width:min(100%,460px); max-height:calc(100dvh - 32px); overflow:auto; padding:30px 28px 26px; background:#fff; border:1px solid var(--mej-borde); border-top:6px solid var(--mej-azul-600); border-radius:18px; box-shadow:0 24px 70px rgba(3,17,42,.28); color:var(--mej-texto); text-align:center; font-family:'Segoe UI',Arial,sans-serif; }
+.mej-dialog-icon { display:grid; place-items:center; width:56px; height:56px; margin:0 auto 16px; border-radius:50%; background:var(--mej-azul-100); color:var(--mej-azul-600); font-size:32px; font-weight:800; }
+.mej-dialog-icon--error { color:#b42332; background:#fff0f0; }
+.mej-dialog-icon--exito { color:#13704b; background:#eaf8f0; }
+.mej-dialog h2 { margin:0 0 12px; color:var(--mej-azul-900); font-size:21px; line-height:1.25; font-weight:750; }
+.mej-dialog-message { margin:0 0 22px; white-space:pre-wrap; overflow-wrap:anywhere; font-size:14px; line-height:1.6; }
+.mej-dialog-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+.mej-dialog-button { min-width:122px; min-height:44px; padding:10px 18px; border:1px solid var(--mej-azul-600); border-radius:10px; font-weight:700; cursor:pointer; }
+.mej-dialog-button--primary { background:var(--mej-azul-600); color:#fff; }
+.mej-dialog-button--primary:hover { background:var(--mej-azul-800); }
+.mej-dialog-button--secondary { background:#fff; color:var(--mej-azul-600); }
+.mej-dialog-input { display:block; width:100%; min-height:44px; margin:0 0 22px; padding:10px 12px; border:1px solid var(--mej-borde); border-radius:9px; background:#fff; color:var(--mej-texto); text-align:left; }
+textarea.mej-dialog-input { min-height:90px; resize:vertical; }
+@media (max-width:768px) { .login-card { width:min(94vw,440px) !important; max-width:94vw; padding:24px 16px !important; } .tabs { flex-wrap:wrap; } .tabs .tab { min-width:46%; } body { overflow-x:hidden !important; } .mej-dialog { padding:24px 18px; } .mej-dialog-button { flex:1 1 120px; } }
+@media (max-width:480px) { .mej-dialog-actions { flex-direction:column-reverse; } .mej-dialog-button { width:100%; flex:auto; } }
+/* Adaptación de las pantallas heredadas a tablet y celular. */
+@media (max-width:900px) {
+  nav { flex-wrap:wrap; gap:12px; max-width:100%; }
+  nav > * { max-width:100%; }
+  main, section, article, .container, .container-fluid { max-width:100%; }
+  .table-responsive { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  table { max-width:none; }
+}
+@media (max-width:600px) {
+  nav { padding:12px !important; }
+  nav h1 { font-size:clamp(16px,4.6vw,22px) !important; }
+  input, select, textarea { font-size:16px; }
+  .login-card .logo h1 { font-size:26px; }
+}
+
+/* V2: componentes institucionales y adaptación real a distintos anchos */
+:root{--mej-primario:#0b4dad;--mej-oscuro:#0b2d5c;--mej-superficie:#fff;--mej-fondo:#f3f6fb;--mej-linea:#d8e2f0;--mej-sombra:0 8px 24px rgba(10,42,91,.09)}
+body:not(.mej-login){background-color:var(--mej-fondo);color:#172c49;font-family:'Segoe UI',Arial,sans-serif}
+/* Cabeceras compartidas: misma altura, escudo, marca y botón de salida */
+.mej-header{background:#0b4dad!important;color:#fff!important;min-height:72px!important;padding:12px clamp(14px,2.5vw,32px)!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;flex-wrap:wrap!important;box-shadow:0 2px 8px #082c6030}
+.mej-header h1,.mej-header .titulo-sistema{color:#fff!important;font-size:clamp(17px,1.4vw,22px)!important;font-weight:800!important;letter-spacing:.045em!important}
+.mej-header .mej-brand{display:flex!important;align-items:center!important;gap:12px!important;min-width:0!important}
+.mej-header .mej-brand img{width:42px!important;height:48px!important;object-fit:contain!important;flex-shrink:0!important}
+.mej-header .mej-brand h1{margin:0!important}
+.mej-header .mej-session{display:flex!important;align-items:center!important;gap:12px!important;flex-wrap:wrap!important;margin-left:auto!important;color:#fff!important}
+.mej-header .mej-session [id*=usuario],.mej-header .mej-session [id*=Usuario]{color:#fff!important}
+.mej-header .btn-cerrar-sesion,.mej-header .btn-salir,.mej-header button[onclick*="cerrarSesion"]{background:#fff!important;color:#0b4dad!important;border:1px solid #dce8fa!important;border-radius:9px!important;min-height:40px!important;padding:9px 15px!important;font-weight:800!important;white-space:nowrap!important;box-shadow:none!important}
+.mej-header .btn-cerrar-sesion:hover,.mej-header .btn-salir:hover,.mej-header button[onclick*="cerrarSesion"]:hover{background:#eaf2fc!important}
+/* Login: cuatro accesos dentro de la tarjeta, sin desbordamiento */
+.mej-login .login-card{width:min(94vw,450px)!important;max-width:94vw!important;padding:clamp(20px,3vw,36px)!important}
+.mej-login .tabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;width:100%!important;margin:24px 0!important;gap:0!important}
+.mej-login .tab{min-width:0!important;width:100%!important;padding:12px 3px!important;line-height:1.25!important;font-size:clamp(10px,1.2vw,12px)!important;overflow-wrap:anywhere!important;border:1px solid #d8e2f0!important}
+.mej-login .tab:first-child{border-radius:9px 0 0 9px!important}.mej-login .tab:last-child{border-radius:0 9px 9px 0!important}
+.mej-login .tab.activo{background:#0b4dad!important;color:#fff!important}
+.mej-login .btn-login{background:#0b4dad!important}
+/* Componentes comunes */
+body:not(.mej-login) .card,body:not(.mej-login) .tarjeta{border-radius:12px;box-shadow:var(--mej-sombra)}
+body:not(.mej-login) input:not([type=checkbox]):not([type=radio]),body:not(.mej-login) select,body:not(.mej-login) textarea{border-radius:8px}
+body:not(.mej-login) button{max-width:100%;touch-action:manipulation}
+body:not(.mej-login) .table-responsive{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* Tablas legibles y desplazables en pantallas angostas sin cortar columnas */
+@media(max-width:800px){.mej-header{flex-direction:column!important;align-items:stretch!important}.mej-header .mej-session{margin-left:0!important;justify-content:space-between!important}.mej-header .identidad-club{position:static!important;transform:none!important}.mej-header .titulo-sistema{position:static!important}.mej-header .btn-salir{position:static!important}.mej-login .tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}.mej-login .tab{font-size:12px!important}.mej-login .tab:first-child,.mej-login .tab:last-child{border-radius:0!important}body:not(.mej-login) main{max-width:100vw!important}body:not(.mej-login) table{min-width:640px}body:not(.mej-login) .table-responsive{width:100%!important}}
+@media(max-width:480px){.mej-login .login-card{padding:20px 15px!important}.mej-login .logo h1{font-size:25px!important}.mej-header .mej-session{gap:8px!important}.mej-header .mej-brand img{width:34px!important;height:42px!important}}

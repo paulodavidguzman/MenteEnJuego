@@ -1,0 +1,3748 @@
+<!doctype html>
+<html lang="es">
+  <head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mente en Juego </title>
+    <style>
+      /* Estilos fijos en paleta de Grises Mate y Gris Azulado de Élite */
+      body {
+        background-color: #e5e5e9;
+        color: #f3f4f6;
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      nav {
+        background-color: #0442ac;
+        border-bottom: 1px solid #1f2937;
+        padding: 15px 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      main {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      @media (min-width: 1024px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
+
+      /* Sistema de Pestañas */
+      .tab-container {
+        max-width: 1200px;
+        margin: 20px auto 0 auto;
+        padding: 0 20px;
+        display: flex;
+        gap: 10px;
+      }
+      
+      /* PESTAÑAS DE NAVEGACIÓN */
+.tab-btn {
+  background-color: #010e2b;
+  border: 1px solid #011430;
+  color: #f4f6f8;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Hover */
+.tab-btn:hover {
+  background-color: #0b2d5c;
+}
+
+/* Pestaña actualmente seleccionada */
+.tab-btn.active {
+  background-color: #0442ac;
+  color: #ffffff;
+  border-color: #0442ac;
+}
+
+/* Línea inferior para identificar la pestaña activa */
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -6px;
+  height: 3px;
+  background-color: #0442ac;
+  border-radius: 3px;
+}
+
+      /* Tarjetas de Contenedores */
+      .card {
+        background-color: #111827;
+        border-radius: 12px;
+        border: 1px solid #1f2937;
+        padding: 20px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+      .card-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #011031;
+        margin-top: 0;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #011a3d;
+        padding-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Grillas y Tablas CRUD */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 13px;
+      }
+      th {
+        background-color: #0442ac ;
+        color: #eeeff1;
+        padding: 17px;
+        text-transform: uppercase;
+        font-size: 14px;
+        border-bottom: 1px solid #1f2937;
+      }
+      td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #1f2937;
+        color: #000a1a;
+      }
+      tr:hover {
+        background-color: rgba(31, 41, 55, 0.4);
+      }
+
+      /* Formularios e Inputs con Validaciones */
+      .form-group {
+        margin-bottom: 12px;
+      }
+      label {
+        display: block;
+        font-size: 15px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color:  #0442ac;
+        margin-bottom: 6px;
+      }
+      input,
+      select {
+        width: 100%;
+        background-color: #010e24;
+        border: 1px solid #667fa5;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        box-sizing: border-box;
+      }
+      input:focus,
+      select:focus {
+        border-color: #011127;
+        outline: none;
+      }
+
+      #formJugadora .form-group label {
+  display: block;
+  margin-bottom: 5px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  color: #0b2d5c;
+
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+      /* Botones e Indicadores Táctiles */
+      button {
+        border: none;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+      }
+      .btn-submit {
+        background-color: #011531;
+        width: 100%;
+        margin-top: 10px;
+        padding: 12px;
+      }
+      .btn-submit:hover {
+        background-color: #011129;
+      }
+      .btn-generic {
+        background-color: #1f2937;
+        border: 1px solid #475569;
+        color: #cbd5e1;
+        padding: 4px 8px;
+        margin-right: 5px;
+      }
+      .btn-generic:hover {
+        background-color: #334155;
+      }
+      .btn-alert {
+        background-color: #451a03;
+        border: 1px solid #7f1d1d;
+        color: #f87171;
+        padding: 4px 8px;
+      }
+      .btn-alert:hover {
+        background-color: #7f1d1d;
+        color: white;
+      }
+
+      .badge-ok {
+        background-color: #064e3b;
+        color: #4ade80;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      .badge-fail {
+        background-color: #3f3f46;
+        color: #d4d4d8;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      .hidden-panel {
+        display: none !important;
+      }
+
+      .btn-success {
+        background-color: #15803d;
+        color: #ffffff;
+        border: 1px solid #16a34a;
+        border-radius: 8px;
+        cursor: pointer;
+        min-width: 30px;
+        min-height: 20px;
+        font-size: 10px;
+      }
+
+      .btn-success:hover {
+        background-color: #166534;
+      }
+
+      .btn-success:focus-visible {
+        outline: 3px solid rgba(34, 197, 94, 0.35);
+        outline-offset: 2px;
+      }
+      .modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modal-contenido {
+  background-color: #dddee0;
+  border: 1px solid #01122e;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 950px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* =====================================================
+   MODAL JUGADORAS - DISEÑO COMPACTO
+   ===================================================== */
+
+#modalJugadora .modal-contenido {
+  max-width: 700px;
+  background-color: #f4f6f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+/* Encabezado */
+#modalJugadora .modal-header {
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+/* Sacamos el gran bloque azul oscuro del formulario */
+#modalJugadora #panelDerechoJugadoras {
+  background-color: transparent;
+}
+
+/* Campos */
+#modalJugadora #formJugadora input,
+#modalJugadora #formJugadora select {
+  height: 34px;
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #94a3b8;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+/* Campo seleccionado */
+#modalJugadora #formJugadora input:focus,
+#modalJugadora #formJugadora select:focus {
+  border-color: #0442ac;
+  box-shadow: 0 0 0 2px rgba(4, 66, 172, 0.12);
+  outline: none;
+}
+
+/* Labels */
+#modalJugadora #formJugadora label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 4px;
+  letter-spacing: 0.25px;
+}
+
+/* Contraseña */
+#modalJugadora #formJugadora
+label[style*="color: #f59e0b"] {
+  color: #9a6700 !important;
+}
+
+/* Fotografía */
+#modalJugadora #fileFotoJugadora {
+  background-color: #ffffff !important;
+  color: #334155 !important;
+  border: 1px solid #94a3b8;
+}
+
+/* Botón principal */
+#modalJugadora #btnSubmitTexto {
+  height: 36px;
+  margin-top: 10px;
+  background-color: #0442ac;
+  border-radius: 6px;
+}
+
+#modalJugadora #btnSubmitTexto:hover {
+  background-color: #0b2d5c;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+#formJugadora {
+  display: grid;
+
+  /* Dos columnas más compactas */
+  grid-template-columns: 310px 310px;
+
+  gap: 10px 16px;
+
+  justify-content: center;
+}
+
+#formJugadora .form-group {
+  margin-bottom: 0;
+}
+
+#formJugadora #btnSubmitTexto {
+  grid-column: 1 / -1;
+}
+
+#formJugadora #btnCancelarEdicion {
+  grid-column: 1 / -1;
+}
+
+#formJugadora input[type="hidden"] {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  #formJugadora {
+    grid-template-columns: 1fr;
+  }
+
+  #formJugadora #btnSubmitTexto,
+  #formJugadora #btnCancelarEdicion {
+    grid-column: 1;
+  }
+}
+
+
+/* =====================================================
+   MODAL PROFESIONALES - DISEÑO COMPACTO
+   ===================================================== */
+
+#modalPersonal .modal-contenido {
+  max-width: 700px;
+  background-color: #f4f6f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+#modalPersonal .modal-header {
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+#modalPersonal #panelDerechoPersonal {
+  background-color: transparent;
+}
+
+#modalPersonal #formPersonal {
+  display: grid;
+  grid-template-columns: 310px 310px;
+  gap: 8px 14px;
+  justify-content: center;
+}
+
+#modalPersonal #formPersonal .form-group {
+  margin-bottom: 0;
+}
+
+#modalPersonal #formPersonal label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 4px;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+}
+
+#modalPersonal #formPersonal input,
+#modalPersonal #formPersonal select {
+  width: 100%;
+  height: 34px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #94a3b8;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+#modalPersonal #formPersonal input:focus,
+#modalPersonal #formPersonal select:focus {
+  border-color: #0442ac;
+  box-shadow: 0 0 0 2px rgba(4, 66, 172, 0.12);
+  outline: none;
+}
+
+#modalPersonal #fileFotoPersonal {
+  background-color: #ffffff;
+  color: #334155;
+  padding: 5px;
+}
+
+#modalPersonal #btnSubmitTextoMed {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 36px;
+  margin-top: 8px;
+  background-color: #0442ac;
+  border-radius: 6px;
+}
+
+#modalPersonal #btnSubmitTextoMed:hover {
+  background-color: #0b2d5c;
+}
+
+/* BOTÓN CANCELAR EDICIÓN PROFESIONAL */
+
+#modalPersonal #btnCancelarEdicionMed {
+  grid-column: 1 / -1;
+
+  width: 100%;
+  height: 36px;
+
+  margin-top: 2px;
+  padding: 0;
+
+  background-color: #475569;
+  color: #ffffff;
+
+  border: 1px solid #334155;
+  border-radius: 6px;
+
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+#modalPersonal #btnCancelarEdicionMed:hover {
+  background-color: #334155;
+}
+/* =====================================================
+   TABLA JUGADORAS - LEGIBILIDAD Y ACCESIBILIDAD
+   ===================================================== */
+
+#tbodyPlantelAdmin tr {
+  transition: background-color 0.15s ease;
+}
+
+/* Filas alternadas */
+#tbodyPlantelAdmin tr:nth-child(even) {
+  background-color: #f1f5f9;
+}
+
+#tbodyPlantelAdmin tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Resaltar fila al pasar el mouse */
+#tbodyPlantelAdmin tr:hover {
+  background-color: #dbeafe;
+}
+
+/* Separadores sutiles */
+#tbodyPlantelAdmin td {
+  border-bottom: 1px solid #cbd5e1;
+}
+
+
+
+#formTituloPersonal {
+  display: none;
+}
+
+
+
+
+/* =====================================================
+   ALINEACIÓN DE COLUMNAS - TABLA JUGADORAS
+   ===================================================== */
+
+/* FOTO */
+#tbodyPlantelAdmin td:nth-child(1),
+#panelIzquierdoJugadoras th:nth-child(1) {
+  text-align: center;
+}
+
+/* FUTBOLISTA */
+#tbodyPlantelAdmin td:nth-child(2),
+#panelIzquierdoJugadoras th:nth-child(2) {
+  text-align: left;
+}
+
+/* DNI */
+#tbodyPlantelAdmin td:nth-child(3),
+#panelIzquierdoJugadoras th:nth-child(3) {
+  text-align: right;
+}
+
+/* POSICIÓN */
+#tbodyPlantelAdmin td:nth-child(4),
+#panelIzquierdoJugadoras th:nth-child(4) {
+  text-align: left;
+}
+
+/* EQUIPO */
+#tbodyPlantelAdmin td:nth-child(5),
+#panelIzquierdoJugadoras th:nth-child(5) {
+  text-align: left;
+}
+
+/* EDAD CALCULADA */
+#tbodyPlantelAdmin td:nth-child(6),
+#panelIzquierdoJugadoras th:nth-child(6) {
+  text-align: center;
+}
+
+/* ESTADO */
+#tbodyPlantelAdmin td:nth-child(7),
+#panelIzquierdoJugadoras th:nth-child(7) {
+  text-align: center;
+}
+
+/* ACCIONES */
+#tbodyPlantelAdmin td:nth-child(8),
+#panelIzquierdoJugadoras th:nth-child(8) {
+  text-align: center;
+}
+
+
+
+/* =====================================================
+   TABLA PROFESIONALES - LEGIBILIDAD
+   ===================================================== */
+
+#tbodyPersonalAdmin tr {
+  transition: background-color 0.15s ease;
+}
+
+#tbodyPersonalAdmin tr:nth-child(even) {
+  background-color: #f1f5f9;
+}
+
+#tbodyPersonalAdmin tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+#tbodyPersonalAdmin tr:hover {
+  background-color: #dbeafe;
+}
+
+#tbodyPersonalAdmin td {
+  border-bottom: 1px solid #cbd5e1;
+}
+
+
+/* =========================================
+   BOTONES DE ACCIONES - PROFESIONALES
+   ========================================= */
+
+#tbodyPersonalAdmin td:last-child {
+  white-space: nowrap;
+  text-align: center;
+}
+
+#tbodyPersonalAdmin .btn-accion-personal {
+  width: 34px;
+  height: 32px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 3px;
+  padding: 0;
+
+  border-radius: 6px;
+  border: 1px solid transparent;
+
+  font-size: 15px;
+  line-height: 1;
+
+  cursor: pointer;
+  vertical-align: middle;
+
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+#tbodyPersonalAdmin .btn-accion-personal:hover {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
+
+/* Editar */
+#tbodyPersonalAdmin .btn-editar-personal {
+  background-color: #334155;
+  color: white;
+}
+
+/* Contraseña */
+#tbodyPersonalAdmin .btn-clave-personal {
+  background-color: #1e293b;
+  color: white;
+}
+
+/* Suspender */
+#tbodyPersonalAdmin .btn-suspender-personal {
+  background-color: #dc2626;
+  color: white;
+}
+
+/* Reactivar */
+#tbodyPersonalAdmin .btn-reactivar-personal {
+  background-color: #16a34a;
+  color: white;
+}
+
+/* Botón deshabilitado */
+#tbodyPersonalAdmin .btn-accion-personal:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+
+#tbodyPersonalAdmin .btn-accion-personal {
+  width: 34px !important;
+  min-width: 34px !important;
+  max-width: 34px !important;
+
+  height: 32px !important;
+  min-height: 32px !important;
+
+  padding: 0 !important;
+  margin: 0 3px !important;
+
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   BOTONES DE ACCIONES - TABLA JUGADORAS
+   ===================================================== */
+
+.btn-editar {
+  background-color: #1e3a5f;
+  border: 1px solid #2563eb;
+  color: #ffffff;
+  min-width: 32px;
+}
+
+.btn-editar:hover {
+  background-color: #2563eb;
+}
+
+.btn-clave {
+  background-color: #4a3b0a;
+  border: 1px solid #ca8a04;
+  color: #ffffff;
+  min-width: 32px;
+}
+
+.btn-clave:hover {
+  background-color: #a16207;
+}
+
+/* Tamaño uniforme para todos los botones de acciones */
+#tbodyPlantelAdmin td:nth-child(8) button {
+  width: 32px;
+  height: 28px;
+  padding: 0;
+  margin: 0 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+    </style>
+
+  <link rel="stylesheet" href="tema-institucional-mej.css" />
+<script src="modal-global-mej.js"></script>
+<link rel="stylesheet" href="mej-cabecera-unica.css?v=3" />
+<link rel="stylesheet" href="mej-responsive.css?v=1" />
+</head>
+  <body>
+    <nav>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <div
+          style="
+            width: 12px;
+            height: 24px;
+            background-color: #94a3b8;
+            border-radius: 4px;
+          "
+        ></div>
+        <h1
+          style="
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #e5e7eb;
+            margin: 0;
+          "
+        >
+          Mente en Juego
+        </h1>
+        <span
+          style="
+            font-size: 10px;
+            color: #fff;
+            font-weight: bold;
+            border: 1px solid #475569;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background-color: #111827;
+          "
+          ></span
+        >
+      </div>
+      <div
+  style="
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  "
+>
+  CLUB ATLÉTICO TALLERES
+</div>
+      <div
+        id="usuarioBarra"
+        style="font-size: 13px; color: #667085; font-weight: 700"
+      >
+        Usuario conectado
+      </div>
+      <button
+        onclick="cerrarSesion()"
+        style="
+          background-color: #451a03;
+          color: #f87171;
+          border: 1px solid #7f1d1d;
+          padding: 6px 12px;
+          border-radius: 6px;
+          font-weight: bold;
+          font-size: 11px;
+          cursor: pointer;
+          text-transform: uppercase;
+        "
+      >
+        🔒 Cerrar Sesión
+      </button>
+    </nav>
+
+    <div class="tab-container">
+      <button
+        id="btnTabJugadoras"
+        class="tab-btn active"
+        onclick="cambiarPestana('jugadoras')"
+      >
+        🏃‍♀️ Gestión Jugadoras
+      </button>
+      <button
+        id="btnTabPersonal"
+        class="tab-btn"
+        onclick="cambiarPestana('personal')"
+      >
+        👥 Gestión Personal y Claves
+      </button>
+    </div>
+    <main>
+      <!-- ========================================================================================= -->
+      <!-- SECTOR JUGADORAS (Pestaña A) -->
+      <!-- ========================================================================================= -->
+      <div id="panelIzquierdoJugadoras">
+
+  <div
+    class="card-title"
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    "
+  >
+    <span>PLANTEL ACTIVO</span>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <input
+        type="text"
+        id="buscarJugadora"
+        placeholder="Buscar por DNI, apellido o nombre"
+        oninput="filtrarJugadoras()"
+        style="width: 280px; padding: 9px 12px;"
+      />
+
+      <button
+        type="button"
+        class="btn-submit"
+        style="
+          width: auto;
+          margin-top: 0;
+          padding: 9px 14px;
+        "
+        onclick="abrirModalJugadoraNueva()"
+      >
+        ➕ Registrar Nueva Jugadora
+      </button>
+    </div>
+  </div>
+
+  <div style="overflow-x: auto">
+    <table>
+      <thead>
+  <tr>
+    <th>Foto</th>
+
+    <th
+      onclick="ordenarJugadoras('apellido')"
+      style="cursor: pointer;"
+      title="Ordenar por futbolista"
+    >
+      Futbolista ↕
+    </th>
+
+    <th
+      onclick="ordenarJugadoras('dni')"
+      style="cursor: pointer;"
+      title="Ordenar por DNI"
+    >
+      DNI ↕
+    </th>
+
+    <th
+      onclick="ordenarJugadoras('posicion')"
+      style="cursor: pointer;"
+      title="Ordenar por posición"
+    >
+      Posición ↕
+    </th>
+
+    <th
+      onclick="ordenarJugadoras('equipo')"
+      style="cursor: pointer;"
+      title="Ordenar por equipo"
+    >
+      Equipo ↕
+    </th>
+
+    <th
+      onclick="ordenarJugadoras('edad')"
+      style="cursor: pointer;"
+      title="Ordenar por edad"
+    >
+      Edad Calculada ↕
+    </th>
+
+    <th
+      onclick="ordenarJugadoras('activo')"
+      style="cursor: pointer;"
+      title="Ordenar por estado"
+    >
+      Estado ↕
+    </th>
+
+    <th>Acciones</th>
+  </tr>
+</thead>
+
+      <tbody id="tbodyPlantelAdmin"></tbody>
+    </table>
+    <div
+  id="paginacionJugadoras"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    margin-bottom: 10px;
+  "
+></div>
+  </div>
+
+</div>
+       
+
+      <div id="panelDerechoJugadoras" class="card hidden-panel">
+        <div
+  class="card-title"
+  id="formTituloJugadora"
+  style="display: none"
+>
+  ➕ Registrar Nueva Futbolista
+</div>
+        <form id="formJugadora" onsubmit="procesarFormularioJugadora(event)">
+          <input type="hidden" id="txtIdOculto" value="" />
+
+         <!-- DNI - PRIMER DATO A VALIDAR -->
+<div class="form-group" id="grupoDniJugadora">
+  <label>DNI:</label>
+
+  <input
+    type="text"
+    id="txtDni"
+    maxlength="11"
+    required
+    inputmode="numeric"
+    autocomplete="off"
+    placeholder="Ej: 44.111.222"
+    oninput="formatearYValidarDniJugadora(this)"
+  />
+
+  <div
+    id="mensajeDniJugadora"
+    style="
+      display: none;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    "
+  ></div>
+</div>
+
+<!-- Espacio para mantener la grilla de dos columnas -->
+<div></div>
+
+<div class="form-group">
+  <label>Apellido:</label>
+  <input type="text" id="txtApellido" required />
+</div>
+
+<div class="form-group">
+  <label>Nombre:</label>
+  <input type="text" id="txtNombre" required />
+</div>
+
+<div class="form-group">
+  <label>EMAIL:</label>
+  <input
+    type="email"
+    id="txtEmail"
+    required
+    placeholder="Ej: jugadora@email.com"
+  />
+</div>
+
+          <div class="form-group">
+            <label>Fecha de Nacimiento:</label>
+            <input type="date" id="txtFechaNacimiento" required />
+          </div>
+          <div class="form-group">
+            <label>Fecha de Ingreso al Club:</label>
+            <input type="date" id="txtFechaIngreso" required />
+          </div>
+          <div class="form-group" id="grupoFechaBaja" style="display: none">
+            <label style="color: #f87171">Fecha de Baja / Retiro:</label>
+            <input type="date" id="txtFechaBaja" />
+          </div>
+
+          <div class="form-group">
+            <label>Posición Táctica Especializada:</label>
+            <select id="selPosicion">
+              <option value="Arquera">Arquera</option>
+              <option value="Defensora">Defensora</option>
+              <option value="Volante">Volante</option>
+              <option value="Delantera">Delantera</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Categoría / Destino:</label>
+            <select id="selEquipo">
+              <option value="Primera">Primera División</option>
+              <option value="Reserva">Reserva</option>
+              <option value="Sub-17">Sub-17</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Lateralidad Fina:</label>
+            <select id="selLateralidad">
+              <option value="diestra">Diestra</option>
+              <option value="zurda">Zurda</option>
+              <option value="ambidiestra">Ambidiestra</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Provincia de Nacimiento:</label
+            ><input type="text" id="txtProvincia" value="Córdoba" required />
+          </div>
+          <div class="form-group">
+            <label>Teléfono de Contacto:</label
+            ><input type="text" id="txtTelefono" />
+          </div>
+          <div class="form-group">
+            <label style="color: #f59e0b; font-weight: bold"
+              >🔑 Contraseña Inicial de Login:</label
+            >
+            <input
+              type="text"
+              id="txtPasswordJugadora"
+              value="Talleres2026"
+              required
+            />
+          </div>
+
+          <!-- CARGADOR DE IMAGEN LEGAJO DIGITAL (Detalle 5) -->
+          <div class="form-group" style="margin-top: 15px">
+            <label style="color: #60a5fa; font-weight: bold"
+              >📸 Fotografía de Legajo CAT:</label
+            >
+            <input
+              type="file"
+              id="fileFotoJugadora"
+              accept="image/*"
+              style="background-color: #1f2937; padding: 6px; color: #9ca3af"
+              onchange="
+                convertirFotoLegajoBase64(
+                  this,
+                  'txtFotoOcultaJug',
+                  'imgPreviaJug',
+                )
+              "
+            />
+            <input type="hidden" id="txtFotoOcultaJug" value="" />
+            <div style="margin-top: 10px; text-align: center">
+              <img
+                id="imgPreviaJug"
+                src=""
+                style="
+                  max-height: 90px;
+                  border-radius: 6px;
+                  display: none;
+                  border: 1px solid #374151;
+                "
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="btnSubmitTexto">
+            Confirmar Fichaje y Alta
+          </button>
+          <button
+  type="button"
+  id="btnCancelarEdicion"
+  onclick="cerrarModalJugadora()"
+  style="
+    display: none;
+    background-color: #1f2937;
+    color: #cbd5e1;
+    border: 1px solid #475569;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 11px;
+  "
+>
+  ✖️ Cancelar / Volver Atrás
+</button>
+
+        </form>
+      </div>
+      <!-- ========================================================================================= -->
+      <!-- SECTOR PERSONAL Y CUENTAS (Pestaña B - Oculto al inicio) -->
+      <!-- ========================================================================================= -->
+      <div id="panelIzquierdoPersonal" class="hidden-panel">
+
+  <div
+  class="card-title"
+  style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+  "
+>
+  <span>CUERPO TÉCNICO Y DEPARTAMENTO DE SALUD AUTENTICADO</span>
+
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    "
+  >
+    <input
+      type="text"
+      id="buscarProfesional"
+      placeholder="Buscar por DNI, apellido o nombre"
+      oninput="filtrarProfesionales()"
+      style="
+        width: 280px;
+        padding: 9px 12px;
+      "
+    />
+
+    <button
+      type="button"
+      class="btn-submit"
+      style="
+        width: auto;
+        margin-top: 0;
+        padding: 9px 14px;
+      "
+      onclick="abrirModalPersonalNuevo()"
+    >
+      ➕ Registrar Nuevo Profesional
+    </button>
+  </div>
+</div>
+
+  <div style="overflow-x: auto">
+
+    <table>
+<thead>
+  <tr>
+    <th
+      onclick="ordenarPersonal('apellido')"
+      style="cursor: pointer;"
+      title="Ordenar por profesional"
+    >
+      PROFESIONAL ↕
+    </th>
+
+    <th
+      onclick="ordenarPersonal('dni')"
+      style="cursor: pointer;"
+      title="Ordenar por DNI"
+    >
+      DNI ↕
+    </th>
+
+    <th
+      onclick="ordenarPersonal('especialidad')"
+      style="cursor: pointer;"
+      title="Ordenar por área"
+    >
+      ÁREA ↕
+    </th>
+
+    <th
+      onclick="ordenarPersonal('email')"
+      style="cursor: pointer;"
+      title="Ordenar por email"
+    >
+      EMAIL CORPORATIVO ↕
+    </th>
+
+    <th>GESTIÓN</th>
+  </tr>
+</thead>
+
+      <tbody id="tbodyPersonalAdmin"></tbody>
+
+    </table>
+    <div
+  id="paginacionProfesionales"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    margin-bottom: 10px;
+  "
+></div>
+
+  </div>
+
+</div>
+        
+
+      <div id="panelDerechoPersonal" class="card hidden-panel">
+        <div class="card-title" id="formTituloPersonal">
+          ➕ Alta de Cuenta Profesional
+        </div>
+<form id="formPersonal" onsubmit="procesarFormularioPersonal(event)">
+  <input type="hidden" id="txtIdOcultoMed" value="" />
+
+  <!-- DNI PRIMERO -->
+ <div class="form-group" id="grupoDniProfesional">
+  <label>DNI:</label>
+
+  <input
+    type="text"
+    id="txtDniMed"
+    maxlength="10"
+    required
+    inputmode="numeric"
+    autocomplete="off"
+    placeholder="Ej: 35.111.222"
+    oninput="formatearYValidarDniProfesional(this)"
+  />
+
+  <div
+    id="mensajeDniProfesional"
+    style="
+      display: none;
+      margin-top: 4px;
+      font-size: 11px;
+      font-weight: 700;
+    "
+  ></div>
+</div>
+
+  <!-- Mantiene la grilla de dos columnas -->
+  <div></div>
+
+  <!-- APELLIDO -->
+  <div class="form-group">
+    <label>Apellido:</label>
+    <input type="text" id="txtApellidoMed" required />
+  </div>
+
+  <!-- NOMBRE -->
+  <div class="form-group">
+    <label>Nombre:</label>
+    <input type="text" id="txtNombreMed" required />
+  </div>
+
+  <!-- ESPECIALIDAD -->
+  <div class="form-group">
+    <label>Especialidad / Rol:</label>
+    <select id="selEspecialidadMed">
+      <option value="Kinesiologo">Fisioterapeuta (Kinesiología)</option>
+      <option value="Nutricionista">Nutricionista</option>
+      <option value="Psicologo">Psicóloga Deportiva</option>
+      <option value="Medico">Médico Clínico de Plantel</option>
+      <option value="Profe">Preparador Físico (Cuerpo Técnico)</option>
+      <option value="Entrenador">Director Técnico</option>
+      <option value="AyudanteCampo">Ayudante de Campo</option>
+      <option value="PreparadorFisico">Preparador Físico</option>
+      <option value="EntrenadorArqueras">Entrenador de Arqueras</option>
+    </select>
+  </div>
+
+  <!-- EMAIL -->
+  <div class="form-group">
+    <label>Correo Electrónico:</label>
+    <input
+      type="email"
+      id="txtEmailMed"
+      required
+      placeholder="nombre@talleres.com"
+      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+    />
+  </div>
+
+  <!-- CONTRASEÑA -->
+  <div class="form-group">
+    <label style="color: #9a6700; font-weight: bold;">
+      🔑 Contraseña Inicial:
+    </label>
+    <input
+      type="text"
+      id="txtPassMed"
+      value="Talleres2026"
+      required
+    />
+  </div>
+
+  <!-- FOTO -->
+  <div class="form-group">
+    <label style="color: #60a5fa; font-weight: bold;">
+      📸 Fotografía de Credencial:
+    </label>
+
+    <input
+      type="file"
+      id="fileFotoPersonal"
+      accept="image/*"
+      onchange="
+        convertirFotoLegajoBase64(
+          this,
+          'txtFotoOcultaPers',
+          'imgPreviaPers'
+        )
+      "
+    />
+
+    <input type="hidden" id="txtFotoOcultaPers" value="" />
+
+    <div style="margin-top: 6px; text-align: center;">
+      <img
+        id="imgPreviaPers"
+        src=""
+        style="
+          max-height: 70px;
+          border-radius: 6px;
+          display: none;
+          border: 1px solid #94a3b8;
+        "
+      />
+    </div>
+  </div>
+
+  <!-- BOTÓN -->
+  <button
+    type="submit"
+    class="btn-submit"
+    id="btnSubmitTextoMed"
+  >
+    Dar de Alta Cuenta Segura
+  </button>
+</form>
+      </div>
+
+<div id="modalPersonal" class="modal-overlay hidden-panel">
+  <div class="modal-contenido">
+
+    <div class="modal-header">
+
+      <div class="card-title" id="tituloModalPersonal">
+        ➕ Alta de Cuenta Profesional
+      </div>
+
+      <button
+        type="button"
+        class="btn-alert"
+        onclick="cerrarModalPersonal()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <div id="contenedorFormularioPersonalModal"></div>
+
+  </div>
+</div>
+
+    </main>
+
+   
+
+    <!-- ===================================================== -->
+    <!-- MODAL JUGADORA -->
+    <!-- ===================================================== -->
+
+    <div id="modalJugadora" class="modal-overlay hidden-panel">
+
+      <div class="modal-contenido">
+
+        <div class="modal-header">
+
+          <div class="card-title" id="tituloModalJugadora">
+            ➕ Registrar Nueva Futbolista
+          </div>
+
+          <button
+            type="button"
+            class="btn-alert"
+            onclick="cerrarModalJugadora()"
+          >
+            ✕
+          </button>
+
+        </div>
+
+        <div id="contenedorFormularioJugadoraModal"></div>
+
+      </div>
+
+    </div>
+    <!-- ========================================================================================= -->
+    <!-- INTELIGENCIA Y COMUNICACIÓN ASÍNCRONA (Scripts Parte A) -->
+    <!-- ========================================================================================= -->
+    <script>
+      function mostrarUsuarioEnBarra() {
+        const box = document.getElementById("usuarioBarra");
+        if (!box) return;
+
+        const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
+        const rol = localStorage.getItem("rolUsuario") || "rol no definido";
+        const especialidad = localStorage.getItem("especialidadMedico") || "";
+
+        box.innerHTML = `👤 ${nombre} · ${rol.toUpperCase()} ${
+          especialidad && especialidad !== "General" ? "· " + especialidad : ""
+        }`;
+      }
+
+      mostrarUsuarioEnBarra();
+      // CERRAR SESION //
+      function cerrarSesion() {
+        localStorage.removeItem("sesionActiva");
+        localStorage.removeItem("usuarioEmailSimulado");
+        localStorage.removeItem("usuarioId");
+        localStorage.removeItem("nombreUsuario");
+        localStorage.removeItem("rolUsuario");
+        localStorage.removeItem("idJugadora");
+        localStorage.removeItem("especialidadMedico");
+
+        sessionStorage.clear();
+
+        window.location.replace("login.html");
+      }
+      window.addEventListener("pageshow", function () {
+        if (localStorage.getItem("sesionActiva") !== "true") {
+          window.location.replace("login.html");
+        }
+      });
+      //PROTECCION ACCESO//
+      (function protegerAccesoAdmin() {
+        const sesion = localStorage.getItem("sesionActiva");
+        const rol = localStorage.getItem("rolUsuario");
+
+        if (sesion !== "true" || rol !== "admin") {
+          cerrarSesion();
+        }
+      })();
+    </script>
+    <script>
+   const API_JUGADORAS_URL = "https://localhost:7012/api/jugadorasadmin";
+const API_CUENTAS_URL = "https://localhost:7012/api/cuentasadmin";
+
+function obtenerHeadersAuth(incluirJson = false) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error(
+      "No se encontró el token JWT. Cerrá sesión y volvé a ingresar."
+    );
+  }
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+  };
+
+  if (incluirJson) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  return headers;
+}
+
+
+      let listaJugadorasLocales = [];
+      let listaPersonalLocal = [];
+
+      const REGISTROS_POR_PAGINA = 10;
+
+let paginaJugadoras = 1;
+let paginaProfesionales = 1;
+
+let jugadorasFiltradas = [];
+let profesionalesFiltrados = [];
+
+
+let columnaOrdenJugadoras = "";
+let ordenAscendenteJugadoras = true;
+
+let columnaOrdenPersonal = "";
+let ordenAscendentePersonal = true;
+
+let dniProfesionalDisponible = false;
+
+function ordenarJugadoras(columna) {
+
+  // Si volvemos a presionar la misma columna,
+  // cambiamos entre ascendente y descendente
+  if (columnaOrdenJugadoras === columna) {
+    ordenAscendenteJugadoras = !ordenAscendenteJugadoras;
+  } else {
+    columnaOrdenJugadoras = columna;
+    ordenAscendenteJugadoras = true;
+  }
+
+  jugadorasFiltradas.sort((a, b) => {
+
+    let valorA;
+    let valorB;
+
+    // EDAD
+    if (columna === "edad") {
+      valorA = calcularEdadExacta(
+        a.fechaNacimiento || a.FechaNacimiento
+      );
+
+      valorB = calcularEdadExacta(
+        b.fechaNacimiento || b.FechaNacimiento
+      );
+
+      return ordenAscendenteJugadoras
+        ? valorA - valorB
+        : valorB - valorA;
+    }
+
+    // ESTADO
+    if (columna === "activo") {
+      valorA = a.activo ? 1 : 0;
+      valorB = b.activo ? 1 : 0;
+
+      return ordenAscendenteJugadoras
+        ? valorA - valorB
+        : valorB - valorA;
+    }
+
+    // DNI
+    if (columna === "dni") {
+      valorA = Number(a.dni || 0);
+      valorB = Number(b.dni || 0);
+
+      return ordenAscendenteJugadoras
+        ? valorA - valorB
+        : valorB - valorA;
+    }
+
+    // COLUMNAS DE TEXTO:
+    // apellido, posición y equipo
+    valorA = String(a[columna] || "").toUpperCase();
+    valorB = String(b[columna] || "").toUpperCase();
+
+    const comparacion = valorA.localeCompare(valorB, "es");
+
+    return ordenAscendenteJugadoras
+      ? comparacion
+      : -comparacion;
+  });
+
+  // Después de ordenar volvemos a la primera página
+  paginaJugadoras = 1;
+
+  // Mantiene la paginación de 10 registros
+  mostrarPaginaJugadoras();
+}
+      
+let temporizadorDniJugadora = null;
+let dniJugadoraDisponible = false;
+
+function formatearYValidarDniJugadora(input) {
+
+  const mensaje =
+    document.getElementById("mensajeDniJugadora");
+
+  // Sacar todo lo que no sea número
+  let numeros = input.value.replace(/\D/g, "");
+
+  // Máximo 9 dígitos
+  numeros = numeros.slice(0, 9);
+
+  // Mostrar el DNI con puntos
+  input.value = numeros.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    "."
+  );
+
+  dniJugadoraDisponible = false;
+
+  if (mensaje) {
+    mensaje.style.display = "none";
+    mensaje.textContent = "";
+  }
+
+  clearTimeout(temporizadorDniJugadora);
+
+  // No consultar hasta tener al menos 7 dígitos
+  if (numeros.length < 7) {
+    return;
+  }
+
+  temporizadorDniJugadora = setTimeout(async () => {
+
+    try {
+
+      const respuesta = await fetch(
+        `${API_JUGADORAS_URL}/existe-dni/${numeros}`,
+        {
+          method: "GET",
+          headers: obtenerHeadersAuth(),
+        }
+      );
+
+      const datos = await respuesta.json();
+
+      if (!respuesta.ok) {
+        throw new Error(
+          datos?.mensaje ||
+          "No se pudo validar el DNI."
+        );
+      }
+
+      if (datos.existe) {
+
+        dniJugadoraDisponible = false;
+
+        if (mensaje) {
+          mensaje.style.display = "block";
+          mensaje.style.color = "#b91c1c";
+          mensaje.textContent =
+            "✕ Ya existe una jugadora registrada con este DNI.";
+        }
+
+      } else {
+
+        dniJugadoraDisponible = true;
+
+        if (mensaje) {
+          mensaje.style.display = "block";
+          mensaje.style.color = "#15803d";
+          mensaje.textContent =
+            "✓ DNI disponible.";
+        }
+      }
+
+    } catch (error) {
+
+      dniJugadoraDisponible = false;
+
+      console.error(
+        "Error al validar DNI:",
+        error
+      );
+
+      if (mensaje) {
+        mensaje.style.display = "block";
+        mensaje.style.color = "#b91c1c";
+        mensaje.textContent =
+          "No se pudo verificar el DNI.";
+      }
+    }
+
+  }, 500);
+}
+
+
+  function filtrarJugadoras() {
+
+  const input =
+    document.getElementById("buscarJugadora");
+
+  if (!input) return;
+
+  const texto =
+    input.value.trim().toLowerCase();
+
+  // Si el buscador está vacío,
+  // volvemos a trabajar con todas las jugadoras
+  if (texto === "") {
+
+    jugadorasFiltradas =
+      [...listaJugadorasLocales];
+
+  } else {
+
+    jugadorasFiltradas =
+      listaJugadorasLocales.filter((j) => {
+
+        const dni =
+          String(j.dni || "").toLowerCase();
+
+        const nombre =
+          String(j.nombre || "").toLowerCase();
+
+        const apellido =
+          String(j.apellido || "").toLowerCase();
+
+        return (
+          dni.includes(texto) ||
+          nombre.includes(texto) ||
+          apellido.includes(texto)
+        );
+      });
+  }
+
+  // Cada vez que hacemos una nueva búsqueda,
+  // volvemos a la página 1
+  paginaJugadoras = 1;
+
+  // Mostrar solamente los primeros 10
+  // resultados de esa búsqueda
+  mostrarPaginaJugadoras();
+}
+
+function filtrarProfesionales() {
+
+  const input =
+    document.getElementById("buscarProfesional");
+
+  if (!input) return;
+
+  const texto =
+    input.value.trim().toLowerCase();
+
+  // Si el buscador está vacío,
+  // volvemos a mostrar todos los profesionales
+  if (texto === "") {
+
+    profesionalesFiltrados =
+      [...listaPersonalLocal];
+
+  } else {
+
+    profesionalesFiltrados =
+      listaPersonalLocal.filter((p) => {
+
+        const dni =
+          String(p.dni || "").toLowerCase();
+
+        const nombre =
+          String(p.nombre || "").toLowerCase();
+
+        const apellido =
+          String(p.apellido || "").toLowerCase();
+
+        const especialidad =
+          String(p.especialidad || "").toLowerCase();
+
+        const email =
+          String(p.email || "").toLowerCase();
+
+        return (
+          dni.includes(texto) ||
+          nombre.includes(texto) ||
+          apellido.includes(texto) ||
+          especialidad.includes(texto) ||
+          email.includes(texto)
+        );
+      });
+  }
+
+  // Cada nueva búsqueda comienza desde la página 1
+  paginaProfesionales = 1;
+
+  // Mostrar los resultados respetando
+  // el máximo de 10 por página
+  mostrarPaginaProfesionales();
+}
+
+     function abrirModalJugadoraNueva() {
+
+  // Limpiar el formulario
+  restablecerFormularioJugadora();
+
+  const modal =
+    document.getElementById("modalJugadora");
+
+  const panelFormulario =
+    document.getElementById("panelDerechoJugadoras");
+
+  const contenedorModal =
+    document.getElementById(
+      "contenedorFormularioJugadoraModal"
+    );
+
+  if (!modal || !panelFormulario || !contenedorModal) {
+    console.error("No se encontraron los elementos del modal de jugadora");
+    return;
+  }
+
+  // Mover el formulario dentro del modal
+  contenedorModal.appendChild(panelFormulario);
+
+  // Mostrar formulario
+  panelFormulario.classList.remove("hidden-panel");
+
+  // Quitar formato de tarjeta interna
+  panelFormulario.style.border = "none";
+  panelFormulario.style.padding = "0";
+  panelFormulario.style.boxShadow = "none";
+
+  // Título del modal
+  const titulo =
+    document.getElementById("tituloModalJugadora");
+
+  if (titulo) {
+    titulo.innerText = "➕ Registrar Nueva Futbolista";
+  }
+
+  // Mostrar modal
+  modal.style.removeProperty("display");
+  modal.classList.remove("hidden-panel");
+}
+
+
+function cerrarModalJugadora() {
+
+  const modal =
+    document.getElementById("modalJugadora");
+
+  const panelFormulario =
+    document.getElementById("panelDerechoJugadoras");
+
+  if (panelFormulario) {
+    panelFormulario.classList.add("hidden-panel");
+  }
+
+  restablecerFormularioJugadora();
+
+  if (modal) {
+    modal.classList.add("hidden-panel");
+
+    modal.style.setProperty(
+      "display",
+      "none",
+      "important"
+    );
+  }
+}
+
+
+function abrirModalPersonalNuevo() {
+
+  restablecerFormularioPersonal();
+
+  // ==========================================
+// PREPARAR DNI PARA NUEVA ALTA
+// ==========================================
+
+const inputDni =
+  document.getElementById("txtDniMed");
+
+if (inputDni) {
+  inputDni.disabled = false;
+  inputDni.readOnly = false;
+  inputDni.value = "";
+}
+
+// El nuevo DNI todavía no fue validado
+dniProfesionalDisponible = false;
+
+// Limpiar mensaje de validación anterior
+const mensajeDni =
+  document.getElementById("mensajeDniProfesional");
+
+if (mensajeDni) {
+  mensajeDni.style.display = "none";
+  mensajeDni.textContent = "";
+}
+
+  const modal =
+    document.getElementById("modalPersonal");
+
+  const panelFormulario =
+    document.getElementById("panelDerechoPersonal");
+
+  const contenedorModal =
+    document.getElementById(
+      "contenedorFormularioPersonalModal"
+    );
+
+  if (!modal || !panelFormulario || !contenedorModal) {
+    console.error("No se encontraron los elementos del modal profesional");
+    return;
+  }
+
+  // Mover formulario profesional al modal
+  contenedorModal.appendChild(panelFormulario);
+
+  // Mostrar formulario
+  panelFormulario.classList.remove("hidden-panel");
+
+  // Quitar apariencia de tarjeta interna
+  panelFormulario.style.border = "none";
+  panelFormulario.style.padding = "0";
+  panelFormulario.style.boxShadow = "none";
+
+  // Título
+  const titulo =
+    document.getElementById("tituloModalPersonal");
+
+  if (titulo) {
+    titulo.innerText = "➕ Alta de Cuenta Profesional";
+  }
+
+  // Mostrar modal
+  modal.style.removeProperty("display");
+  modal.classList.remove("hidden-panel");
+}
+
+
+function cerrarModalPersonal() {
+
+  const modal =
+    document.getElementById("modalPersonal");
+
+  const panelFormulario =
+    document.getElementById("panelDerechoPersonal");
+
+  if (panelFormulario) {
+    panelFormulario.classList.add("hidden-panel");
+  }
+
+  restablecerFormularioPersonal();
+
+  if (modal) {
+
+    modal.classList.add("hidden-panel");
+
+    modal.style.setProperty(
+      "display",
+      "none",
+      "important"
+    );
+  }
+}
+
+function abrirModalPersonalNuevo() {
+
+  restablecerFormularioPersonal();
+
+  const modal = document.getElementById("modalPersonal");
+  const panelFormulario = document.getElementById("panelDerechoPersonal");
+  const contenedorModal = document.getElementById(
+    "contenedorFormularioPersonalModal"
+  );
+
+  if (!modal || !panelFormulario || !contenedorModal) return;
+
+  contenedorModal.appendChild(panelFormulario);
+
+  panelFormulario.classList.remove("hidden-panel");
+
+  panelFormulario.style.border = "none";
+  panelFormulario.style.padding = "0";
+  panelFormulario.style.boxShadow = "none";
+
+  const titulo = document.getElementById("tituloModalPersonal");
+
+  if (titulo) {
+    titulo.innerText = "➕ Alta de Cuenta Profesional";
+  }
+
+  modal.style.removeProperty("display");
+  modal.classList.remove("hidden-panel");
+}
+
+
+function cerrarModalPersonal() {
+
+  const modal = document.getElementById("modalPersonal");
+  const panelFormulario = document.getElementById("panelDerechoPersonal");
+
+  if (panelFormulario) {
+    panelFormulario.classList.add("hidden-panel");
+  }
+
+  restablecerFormularioPersonal();
+
+  if (modal) {
+    modal.classList.add("hidden-panel");
+    modal.style.setProperty("display", "none", "important");
+  }
+}
+
+      // CONMUTADOR DE PESTAÑAS (COMPATIBILIDAD SIN EÑE)
+ function cambiarPestana(tipo) {
+
+  const jugadoras =
+    document.getElementById("panelIzquierdoJugadoras");
+
+  const profesionales =
+    document.getElementById("panelIzquierdoPersonal");
+
+  const btnJugadoras =
+    document.getElementById("btnTabJugadoras");
+
+  const btnPersonal =
+    document.getElementById("btnTabPersonal");
+
+
+  if (tipo === "jugadoras") {
+
+    // Mostrar Jugadoras
+    if (jugadoras) {
+      jugadoras.classList.remove("hidden-panel");
+    }
+
+    // Ocultar Profesionales
+    if (profesionales) {
+      profesionales.classList.add("hidden-panel");
+    }
+
+    // Marcar pestaña activa
+    if (btnJugadoras) {
+      btnJugadoras.classList.add("active");
+    }
+
+    if (btnPersonal) {
+      btnPersonal.classList.remove("active");
+    }
+
+  } else {
+
+    // Ocultar Jugadoras
+    if (jugadoras) {
+      jugadoras.classList.add("hidden-panel");
+    }
+
+    // Mostrar Profesionales
+    if (profesionales) {
+      profesionales.classList.remove("hidden-panel");
+    }
+
+    // Marcar pestaña activa
+    if (btnPersonal) {
+      btnPersonal.classList.add("active");
+    }
+
+    if (btnJugadoras) {
+      btnJugadoras.classList.remove("active");
+    }
+  }
+}
+
+      // CONVERTIDOR UNIVERSAL BINARIO BASE64 (Detalle 5)
+      function convertirFotoLegajoBase64(input, idInputOculto, idImgPrevia) {
+        if (input.files && input.files[0]) {
+          var lector = new FileReader();
+          lector.onload = function (e) {
+            document.getElementById(idInputOculto).value = e.target.result;
+            const previsualizar = document.getElementById(idImgPrevia);
+            if (previsualizar) {
+              previsualizar.src = e.target.result;
+              previsualizar.style.display = "inline-block";
+            }
+          };
+          lector.readAsDataURL(input.files[0]);
+        }
+      }
+
+      // READ: Cargar el plantel real desde SQL Server
+      async function cargarPlantelReal() {
+  try {
+    const response = await fetch(API_JUGADORAS_URL, {
+      method: "GET",
+      headers: obtenerHeadersAuth(),
+    });
+
+    if (!response.ok) {
+      const detalle = await response.text();
+      throw new Error(detalle || `Error HTTP ${response.status}`);
+    }
+
+  listaJugadorasLocales = await response.json();
+
+paginaJugadoras = 1;
+jugadorasFiltradas = [...listaJugadorasLocales];
+
+mostrarPaginaJugadoras();
+  } catch (error) {
+    console.error("Error al cargar jugadoras:", error);
+
+    listaJugadorasLocales = [];
+   jugadorasFiltradas = [];
+paginaJugadoras = 1;
+mostrarPaginaJugadoras();
+
+    const tbody = document.getElementById("tbodyPlantelAdmin");
+
+    if (tbody) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="8" style="color:#f87171; text-align:center;">
+            No se pudo cargar el plantel real.
+            Cerrá sesión, volvé a ingresar y revisá la consola si el problema continúa.
+          </td>
+        </tr>
+      `;
+    }
+  }
+}
+
+function mostrarPaginaJugadoras() {
+
+  const lista = jugadorasFiltradas;
+
+  const totalPaginas = Math.max(
+    1,
+    Math.ceil(lista.length / REGISTROS_POR_PAGINA)
+  );
+
+  if (paginaJugadoras > totalPaginas) {
+    paginaJugadoras = totalPaginas;
+  }
+
+  const inicio =
+    (paginaJugadoras - 1) * REGISTROS_POR_PAGINA;
+
+  const fin =
+    inicio + REGISTROS_POR_PAGINA;
+
+  const registrosPagina =
+    lista.slice(inicio, fin);
+
+  renderizarTablaJugadoras(registrosPagina);
+
+  renderizarPaginacionJugadoras(totalPaginas);
+}
+
+
+function renderizarPaginacionJugadoras(totalPaginas) {
+
+  const contenedor =
+    document.getElementById("paginacionJugadoras");
+
+  if (!contenedor) return;
+
+  // Si solamente hay una página,
+  // no mostramos los botones
+  if (totalPaginas <= 1) {
+    contenedor.innerHTML = "";
+    return;
+  }
+
+  contenedor.innerHTML = `
+    <button
+      type="button"
+      class="btn-submit"
+      style="
+        width: auto;
+        padding: 8px 14px;
+        margin: 0;
+      "
+      onclick="cambiarPaginaJugadoras(-1)"
+      ${paginaJugadoras === 1 ? "disabled" : ""}
+    >
+      ← ANTERIOR
+    </button>
+
+    <span
+      style="
+        font-weight: 700;
+        color: #0b2d5c;
+      "
+    >
+      Página ${paginaJugadoras} de ${totalPaginas}
+    </span>
+
+    <button
+      type="button"
+      class="btn-submit"
+      style="
+        width: auto;
+        padding: 8px 14px;
+        margin: 0;
+      "
+      onclick="cambiarPaginaJugadoras(1)"
+      ${paginaJugadoras === totalPaginas ? "disabled" : ""}
+    >
+      SIGUIENTE →
+    </button>
+  `;
+}
+
+
+function cambiarPaginaJugadoras(direccion) {
+
+  const totalPaginas = Math.max(
+    1,
+    Math.ceil(
+      jugadorasFiltradas.length /
+      REGISTROS_POR_PAGINA
+    )
+  );
+
+  const nuevaPagina =
+    paginaJugadoras + direccion;
+
+  // Evitar pasar los límites
+  if (
+    nuevaPagina < 1 ||
+    nuevaPagina > totalPaginas
+  ) {
+    return;
+  }
+
+  paginaJugadoras = nuevaPagina;
+
+  mostrarPaginaJugadoras();
+}
+
+      function calcularEdadExacta(fechaNacimientoString) {
+        if (!fechaNacimientoString) return 21;
+        const nacimiento = new Date(fechaNacimientoString);
+        const hoy = new Date();
+        let edad = hoy.getFullYear() - nacimiento.getFullYear();
+        const mes = hoy.getMonth() - nacimiento.getMonth();
+        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+          edad--;
+        }
+        return edad;
+      }
+
+      function renderizarTablaJugadoras(lista) {
+        const tbody = document.getElementById("tbodyPlantelAdmin");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        lista.forEach((j, index) => {
+          const tr = document.createElement("tr");
+          const badgeClass = j.activo ? "badge-ok" : "badge-fail";
+          const labelEstado = j.activo ? "ACTIVA" : "INACTIVA";
+
+          const edadCalculada = calcularEdadExacta(
+            j.fechaNacimiento || j.FechaNacimiento,
+          );
+
+          // Comprobar estrictamente si la celda de SQL Server contiene un string de foto Base64 real
+          const tieneFotoReal =
+            (j.fotoBase64 && j.fotoBase64.trim().length > 30) ||
+            (j.FotoBase64 && j.FotoBase64.trim().length > 30);
+
+          // CONTROL DE CALIDAD: Estructura HTML unificada y limpia (Adiós al código de texto plano)
+          let celdaFotoHTML = "";
+          if (tieneFotoReal) {
+            const fotoSource = j.fotoBase64 || j.FotoBase64;
+            celdaFotoHTML = `<img src="${fotoSource}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #374151; vertical-align: middle;">`;
+          } else {
+            // Silueta circular web pura en escala de grises para las jugadoras sin foto (Como Claudia Cervantes)
+           celdaFotoHTML = `<div style="width: 34px; height: 34px; border-radius: 50%; background-color: #374151; border: 2px solid #4b5563; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; color: #9ca3af; vertical-align: middle;">👤</div>`;
+          }
+
+          tr.innerHTML = `
+    <td style="vertical-align: middle; text-align: center;">
+        ${celdaFotoHTML}
+    </td>
+
+    <td style="font-weight: bold; vertical-align: middle;">
+        ${String(j.apellido || "").toUpperCase()}, ${String(j.nombre || "").toUpperCase()}
+    </td>
+
+    <td style="vertical-align: middle;">
+        ${j.dni}
+    </td>
+
+    <td style="vertical-align: middle;">
+        ${String(j.posicion || "").toUpperCase()}
+    </td>
+
+    <td style="vertical-align: middle;">
+        ${String(j.equipo || "").toUpperCase()}
+    </td>
+
+    <td style="vertical-align: middle; font-weight: bold; color: #60a5fa;">
+        ${edadCalculada} años
+    </td>
+
+    <td style="vertical-align: middle;">
+        <span class="${badgeClass}">
+            ${labelEstado}
+        </span>
+    </td>
+
+    <td style="vertical-align: middle;">
+
+       <button
+    type="button"
+    class="btn-generic btn-editar"
+    onclick="prepararModificacionJugadora(${j.id})"
+    title="Modificar datos de la jugadora"
+>
+    ✏️
+</button>
+
+<button
+    type="button"
+    
+   class="btn-generic btn-clave"
+    onclick="blanquearClaveJugadora(${j.id})"
+    title="Restablecer contraseña"
+>
+    🔑
+</button>
+
+        ${
+          j.activo
+            ? `
+                <button
+                    type="button"
+                    class="btn-alert"
+                    onclick="aplicarBajaLogicaJugadora(${j.id})"
+                    title="Dar de baja"
+                >
+                    ✕
+                </button>
+              `
+            : `
+                <button
+                    type="button"
+                    class="btn-success"
+                    onclick="reincorporarJugadora(${j.id})"
+                    title="Reincorporar jugadora"
+                >
+                    ↻
+                </button>
+              `
+        }
+
+    </td>
+`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // CONTROL DE CALIDAD: Agrega el cartel "¿Está seguro de hacer estos cambios?" al enviar
+      async function procesarFormularioJugadora(event) {
+        event.preventDefault();
+        const idOculto = document.getElementById("txtIdOculto").value;
+
+        // En un ALTA, el DNI debe haber sido validado previamente.
+// En una MODIFICACIÓN no se vuelve a validar porque el DNI está bloqueado.
+if (idOculto === "" && !dniJugadoraDisponible) {
+  mostrarAvisoMEJ(
+    "No se puede registrar la jugadora.\n\n" +
+    "Verifique que el DNI sea válido y que no pertenezca a otra jugadora."
+  );
+
+  document.getElementById("txtDni").focus();
+  return;
+}
+        // Cartel de confirmación institucional para mitigar errores humanos
+        const textoConfirmacion =
+          idOculto === ""
+            ? "¿Confirmar el alta y fichaje de la nueva futbolista en Talleres?"
+            : "¿Está seguro de guardar estos cambios contractuales de legajo?";
+
+        if (!await confirmarMEJ(textoConfirmacion)) return;
+
+        const payload = {
+          Nombre: document.getElementById("txtNombre").value,
+          Apellido: document.getElementById("txtApellido").value,
+         Dni: document
+  .getElementById("txtDni")
+  .value
+  .replace(/\D/g, ""),
+          Email: document.getElementById("txtEmail").value.trim(),
+          FechaNacimiento: document.getElementById("txtFechaNacimiento").value,
+          FechaIngreso: document.getElementById("txtFechaIngreso").value,
+          FechaBaja: document.getElementById("txtFechaBaja")?.value || null,
+          Posicion: document.getElementById("selPosicion").value,
+          Equipo: document.getElementById("selEquipo").value,
+          Lateralidad: document.getElementById("selLateralidad").value,
+          LugarNacimientoProvincia:
+            document.getElementById("txtProvincia").value,
+          Telefono: document.getElementById("txtTelefono").value,
+          FotoBase64: document.getElementById("txtFotoOcultaJug").value || null,
+          IdDomicilio: 1,
+          Activo: true,
+        };
+
+       try {
+  let r =
+    idOculto === ""
+      ? await fetch(
+          `${API_JUGADORAS_URL}?passwordInicial=${encodeURIComponent(
+            document.getElementById("txtPasswordJugadora").value
+          )}`,
+          {
+            method: "POST",
+            headers: obtenerHeadersAuth(true),
+            body: JSON.stringify(payload),
+          }
+        )
+      : await fetch(`${API_JUGADORAS_URL}/${idOculto}`, {
+          method: "PUT",
+          headers: obtenerHeadersAuth(true),
+          body: JSON.stringify(payload),
+        });
+
+if (r.ok) {
+  const resData = await r.json();
+
+  mostrarAvisoMEJ(resData.mensaje || "Operación realizada correctamente.");
+
+  cerrarModalJugadora();
+
+  await cargarPlantelReal();
+}
+ else {
+    const textoError = await r.text();
+
+    console.error(
+      "Error al guardar jugadora:",
+      r.status,
+      textoError
+    );
+
+    mostrarAvisoMEJ(
+      textoError ||
+        `Error HTTP ${r.status} al guardar la jugadora.`
+    );
+  }
+} catch (e) {
+  console.error("Error en procesarFormularioJugadora:", e);
+
+  mostrarAvisoMEJ(
+    "No se pudo completar la operación.\n\n" +
+      e.message
+  );
+}
+}
+      
+      // FUNCIÓN TÉCNICA AUXILIAR: Convierte cualquier fecha ISO de C# al formato AAAA-MM-DD requerido por HTML5
+      function formatearFechaParaInput(fechaString) {
+  if (!fechaString) return "";
+
+  const fecha = new Date(fechaString);
+
+  if (isNaN(fecha.getTime())) return "";
+
+  const anio = fecha.getFullYear();
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+  const dia = String(fecha.getDate()).padStart(2, "0");
+
+  return `${anio}-${mes}-${dia}`;
+}
+
+      // CONTROL DE CALIDAD: Carga los almanaques y las fotos en el formulario derecho al presionar el lápiz
+      function prepararModificacionJugadora(idJugadora) {
+  const j = listaJugadorasLocales.find(
+    (jugadora) => Number(jugadora.id) === Number(idJugadora)
+  );
+
+  if (!j) {
+    mostrarAvisoMEJ("No se encontró la jugadora seleccionada.");
+    return;
+  }
+  const buscador = document.getElementById("buscarJugadora");
+
+if (buscador) {
+  buscador.value = "";
+}
+
+renderizarTablaJugadoras(listaJugadorasLocales);
+
+        const modal = document.getElementById("modalJugadora");
+const panelFormulario = document.getElementById("panelDerechoJugadoras");
+const contenedorModal = document.getElementById(
+  "contenedorFormularioJugadoraModal",
+);
+
+if (contenedorModal && panelFormulario) {
+  contenedorModal.appendChild(panelFormulario);
+  panelFormulario.classList.remove("hidden-panel");
+}
+
+if (modal) {
+  modal.style.removeProperty("display");
+  modal.classList.remove("hidden-panel");
+}
+
+        document.getElementById("txtIdOculto").value = j.id;
+        document.getElementById("txtNombre").value = j.nombre;
+        document.getElementById("txtApellido").value = j.apellido;
+
+        // Bloqueo de seguridad del DNI
+        document.getElementById("txtDni").value = j.dni;
+        document.getElementById("txtDni").disabled = true;
+
+        document.getElementById("txtEmail").value = j.email || "";
+
+        // SOLUCIÓN AL BUG 2: Parseo estricto de fechas formateadas para inputs de tipo "date"
+        document.getElementById("txtFechaNacimiento").value =
+          formatearFechaParaInput(j.fechaNacimiento || j.FechaNacimiento);
+        document.getElementById("txtFechaIngreso").value =
+          formatearFechaParaInput(j.fechaIngreso || j.FechaIngreso);
+
+        if (j.fechaBaja || j.FechaBaja) {
+          const grupoBaja = document.getElementById("grupoFechaBaja");
+          if (grupoBaja) grupoBaja.style.display = "block";
+          document.getElementById("txtFechaBaja").value =
+            formatearFechaParaInput(j.fechaBaja || j.FechaBaja);
+        }
+
+        document.getElementById("selPosicion").value = j.posicion;
+        document.getElementById("selEquipo").value = j.equipo;
+        document.getElementById("selLateralidad").value =
+          j.lateralidad || "diestra";
+        document.getElementById("txtProvincia").value =
+          j.lugarNacimientoProvincia || "Córdoba";
+        document.getElementById("txtTelefono").value = j.telefono || "";
+
+        // SOLUCIÓN AL BUG 3: Forzar el encendido de la miniatura de previsualización derecha
+        const fotoBase = j.fotoBase64 || j.FotoBase64;
+        const imgPrevia = document.getElementById("imgPreviaJug");
+        if (fotoBase && fotoBase.trim().length > 30) {
+          document.getElementById("txtFotoOcultaJug").value = fotoBase;
+          if (imgPrevia) {
+            imgPrevia.src = fotoBase;
+            imgPrevia.style.display = "inline-block";
+          }
+        } else {
+          document.getElementById("txtFotoOcultaJug").value = "";
+          if (imgPrevia) imgPrevia.style.display = "none";
+        }
+
+        // Interfaz Dinámica: Cambia títulos y agrega el botón Cancelar de forma prolija
+        document.getElementById("formTituloJugadora").innerText =
+          "✏️ Modificar Datos Legajo";
+
+          const tituloModal = document.getElementById("tituloModalJugadora");
+
+if (tituloModal) {
+  tituloModal.innerText = "✏️ Modificar Datos Legajo";
+}
+
+        // Agregar botón de cancelar/volver atrás si no existe ya
+        const btnCancelar = document.getElementById("btnCancelarEdicion");
+
+if (btnCancelar) {
+  btnCancelar.style.display = "block";
+}
+
+        document.getElementById("btnSubmitTexto").innerText =
+          "Guardar Cambios Contractuales";
+        document.getElementById("btnSubmitTexto").style.backgroundColor =
+          "#16a34a"; // Verde éxito para guardar
+      }
+
+      async function aplicarBajaLogicaJugadora(idJugadora) {
+        if (!idJugadora || Number(idJugadora) <= 0) {
+          mostrarAvisoMEJ("La jugadora seleccionada no es válida.");
+          return;
+        }
+
+        const confirmar = await confirmarMEJ(
+          "¿Desea dar de baja a esta jugadora?\n\n" +
+            "Se conservará todo su historial, pero no podrá iniciar sesión.",
+        );
+
+        if (!confirmar) return;
+
+      try {
+  const respuestaHttp = await fetch(
+    `${API_JUGADORAS_URL}/baja-logica/${idJugadora}`,
+    {
+      method: "PUT",
+      headers: obtenerHeadersAuth(),
+    }
+  );
+
+          const texto = await respuestaHttp.text();
+          let respuesta = null;
+
+          try {
+            respuesta = texto ? JSON.parse(texto) : null;
+          } catch {
+            respuesta = null;
+          }
+
+          if (!respuestaHttp.ok) {
+            throw new Error(
+              respuesta?.detalle ||
+                respuesta?.mensaje ||
+                texto ||
+                `Error HTTP ${respuestaHttp.status}`,
+            );
+          }
+
+          mostrarAvisoMEJ(respuesta?.mensaje || "Baja lógica aplicada correctamente.");
+
+          window.location.reload();
+        } catch (error) {
+          console.error("Error al dar de baja a la jugadora:", error);
+
+          mostrarAvisoMEJ("No se pudo aplicar la baja.\n\n" + error.message);
+        }
+      }
+
+      // SOLUCIÓN AL ERROR 2: Destruye visualmente la previsualización al limpiar
+      function restablecerFormularioJugadora() {
+        document.getElementById("formJugadora").reset();
+        document.getElementById("txtIdOculto").value = "";
+        document.getElementById("txtDni").disabled = false;
+        document.getElementById("txtFotoOcultaJug").value = "";
+
+        const fotoPrevia = document.getElementById("imgPreviaJug");
+        if (fotoPrevia) {
+          fotoPrevia.src = "";
+          fotoPrevia.style.display = "none";
+        }
+
+        const grupoBaja = document.getElementById("grupoFechaBaja");
+        if (grupoBaja) grupoBaja.style.display = "none";
+
+        // Remover el botón de cancelar edidión de forma limpia
+       const btnCancelar = document.getElementById("btnCancelarEdicion");
+
+if (btnCancelar) {
+  btnCancelar.style.display = "none";
+}
+        document.getElementById("formTituloJugadora").innerText =
+          "➕ Registrar Nueva Futbolista";
+        document.getElementById("btnSubmitTexto").innerText =
+          "Confirmar Fichaje y Alta";
+        document.getElementById("btnSubmitTexto").style.backgroundColor =
+          "#334155"; // Vuelve a gris mate original
+      }
+
+      //Reincorporacion de Jugadora//
+
+      async function reincorporarJugadora(idJugadora) {
+        if (!idJugadora || Number(idJugadora) <= 0) {
+          mostrarAvisoMEJ("La jugadora seleccionada no es válida.");
+          return;
+        }
+
+        const confirmar = await confirmarMEJ(
+          "¿Desea reincorporar a esta jugadora?\n\n" +
+            "Se reactivará su legajo y su cuenta de acceso. " +
+            "El historial anterior se conservará.",
+        );
+
+        if (!confirmar) return;
+
+        try {
+         const respuestaHttp = await fetch(
+  `${API_JUGADORAS_URL}/reincorporar/${idJugadora}`,
+  {
+    method: "PUT",
+    headers: obtenerHeadersAuth(),
+  },
+);
+
+          const texto = await respuestaHttp.text();
+          let respuesta = null;
+
+          try {
+            respuesta = texto ? JSON.parse(texto) : null;
+          } catch {
+            respuesta = null;
+          }
+
+          if (!respuestaHttp.ok) {
+            throw new Error(
+              respuesta?.detalle ||
+                respuesta?.mensaje ||
+                texto ||
+               `Error HTTP ${respuestaHttp.status}`,
+            );
+          }
+
+          mostrarAvisoMEJ(respuesta?.mensaje || "Jugadora reincorporada correctamente.");
+
+          window.location.reload();
+        } catch (error) {
+          console.error("Error al reincorporar:", error);
+
+          mostrarAvisoMEJ("No se pudo reincorporar a la jugadora.\n\n" + error.message);
+        }
+      }
+
+      // READ: Cargar el personal de salud y cuerpo técnico
+     async function cargarPersonalReal() {
+  try {
+    const response = await fetch(API_CUENTAS_URL, {
+      method: "GET",
+      headers: obtenerHeadersAuth(),
+    });
+
+    if (!response.ok) {
+      const textoError = await response.text();
+
+      console.error(
+        "Error al cargar profesionales:",
+        response.status,
+        textoError
+      );
+
+      throw new Error(
+        `Error HTTP ${response.status} al cargar profesionales.`
+      );
+    }
+
+    listaPersonalLocal = await response.json();
+
+    // ORDEN INICIAL: APELLIDO A → Z
+    listaPersonalLocal.sort((a, b) =>
+      String(a.apellido || "").localeCompare(
+        String(b.apellido || ""),
+        "es",
+        { sensitivity: "base" }
+      )
+    );
+
+    paginaProfesionales = 1;
+    profesionalesFiltrados = [...listaPersonalLocal];
+
+    columnaOrdenPersonal = "apellido";
+    ordenAscendentePersonal = true;
+
+    mostrarPaginaProfesionales();
+
+  } catch (error) {
+    console.error(
+      "Error en cargarPersonalReal:",
+      error
+    );
+
+    listaPersonalLocal = [];
+    profesionalesFiltrados = [];
+    paginaProfesionales = 1;
+
+    renderizarTablaPersonal(listaPersonalLocal);
+  }
+}
+
+
+async function formatearYValidarDniProfesional(input) {
+  // Dejamos solamente números
+  let dni = input.value.replace(/\D/g, "");
+
+  // Máximo 8 dígitos
+  dni = dni.substring(0, 8);
+
+  // Formato visual: 32.926.449
+  if (dni.length > 6) {
+    input.value =
+      dni.slice(0, -6) +
+      "." +
+      dni.slice(-6, -3) +
+      "." +
+      dni.slice(-3);
+  } else if (dni.length > 3) {
+    input.value =
+      dni.slice(0, -3) +
+      "." +
+      dni.slice(-3);
+  } else {
+    input.value = dni;
+  }
+
+  const mensaje = document.getElementById("mensajeDniProfesional");
+
+  // Cada vez que cambia el DNI, vuelve a quedar pendiente
+  dniProfesionalDisponible = false;
+
+  if (!mensaje) return;
+
+  // Todavía no hay un DNI completo
+  if (dni.length < 7) {
+    mensaje.style.display = "none";
+    mensaje.textContent = "";
+    return;
+  }
+
+  mensaje.style.display = "block";
+  mensaje.style.color = "#64748b";
+  mensaje.textContent = "Verificando DNI...";
+
+  try {
+    const respuestaHttp = await fetch(
+      `${API_CUENTAS_URL}/existe-dni/${dni}`,
+      {
+        method: "GET",
+        headers: obtenerHeadersAuth(),
+      }
+    );
+
+    const texto = await respuestaHttp.text();
+
+    let respuesta = null;
+
+    try {
+      respuesta = texto ? JSON.parse(texto) : null;
+    } catch {
+      respuesta = null;
+    }
+
+    if (!respuestaHttp.ok) {
+      throw new Error(
+        respuesta?.mensaje ||
+        texto ||
+        `Error HTTP ${respuestaHttp.status}`
+      );
+    }
+
+    if (respuesta.existe) {
+      dniProfesionalDisponible = false;
+
+      mensaje.style.color = "#dc2626";
+      mensaje.textContent =
+        "✖ El DNI ya pertenece a un profesional del club.";
+    } else {
+      dniProfesionalDisponible = true;
+
+      mensaje.style.color = "#15803d";
+      mensaje.textContent = "✓ DNI disponible.";
+    }
+  } catch (error) {
+    console.error("Error al verificar DNI del profesional:", error);
+
+    dniProfesionalDisponible = false;
+
+    mensaje.style.color = "#dc2626";
+    mensaje.textContent =
+      "No se pudo verificar el DNI.";
+  }
+}
+
+function mostrarPaginaProfesionales() {
+
+  const lista = profesionalesFiltrados;
+
+  const totalPaginas = Math.max(
+    1,
+    Math.ceil(
+      lista.length / REGISTROS_POR_PAGINA
+    )
+  );
+
+  if (paginaProfesionales > totalPaginas) {
+    paginaProfesionales = totalPaginas;
+  }
+
+  const inicio =
+    (paginaProfesionales - 1) *
+    REGISTROS_POR_PAGINA;
+
+  const fin =
+    inicio + REGISTROS_POR_PAGINA;
+
+  const registrosPagina =
+    lista.slice(inicio, fin);
+
+  renderizarTablaPersonal(registrosPagina);
+
+  renderizarPaginacionProfesionales(
+    totalPaginas
+  );
+}
+
+function ordenarPersonal(campo) {
+  // Si hacemos clic nuevamente en la misma columna,
+  // alternamos entre ascendente y descendente.
+  if (columnaOrdenPersonal === campo) {
+    ordenAscendentePersonal = !ordenAscendentePersonal;
+  } else {
+    columnaOrdenPersonal = campo;
+    ordenAscendentePersonal = true;
+  }
+
+  profesionalesFiltrados.sort((a, b) => {
+    let valorA = a[campo] ?? "";
+    let valorB = b[campo] ?? "";
+
+    // DNI: ordenar numéricamente
+    if (campo === "dni") {
+      valorA = Number(String(valorA).replace(/\D/g, "")) || 0;
+      valorB = Number(String(valorB).replace(/\D/g, "")) || 0;
+
+      return ordenAscendentePersonal
+        ? valorA - valorB
+        : valorB - valorA;
+    }
+
+    // Resto de las columnas: ordenar como texto
+    valorA = String(valorA).trim();
+    valorB = String(valorB).trim();
+
+    const comparacion = valorA.localeCompare(valorB, "es", {
+      sensitivity: "base",
+    });
+
+    return ordenAscendentePersonal
+      ? comparacion
+      : -comparacion;
+  });
+
+  // Después de ordenar volvemos a la primera página.
+  paginaProfesionales = 1;
+
+  mostrarPaginaProfesionales();
+}
+
+function renderizarPaginacionProfesionales(totalPaginas) {
+
+  const contenedor =
+    document.getElementById(
+      "paginacionProfesionales"
+    );
+
+  if (!contenedor) return;
+
+  // Si hay una sola página,
+  // no necesitamos mostrar controles
+  if (totalPaginas <= 1) {
+    contenedor.innerHTML = "";
+    return;
+  }
+
+  contenedor.innerHTML = `
+    <button
+      type="button"
+      class="btn-submit"
+      style="
+        width:auto;
+        padding:8px 14px;
+        margin:0;
+      "
+      onclick="cambiarPaginaProfesionales(-1)"
+      ${paginaProfesionales === 1 ? "disabled" : ""}
+    >
+      ← ANTERIOR
+    </button>
+
+    <span
+      style="
+        font-weight:700;
+        color:#0b2d5c;
+      "
+    >
+      Página ${paginaProfesionales} de ${totalPaginas}
+    </span>
+
+    <button
+      type="button"
+      class="btn-submit"
+      style="
+        width:auto;
+        padding:8px 14px;
+        margin:0;
+      "
+      onclick="cambiarPaginaProfesionales(1)"
+      ${paginaProfesionales === totalPaginas ? "disabled" : ""}
+    >
+      SIGUIENTE →
+    </button>
+  `;
+}
+
+function cambiarPaginaProfesionales(direccion) {
+
+  const totalPaginas = Math.max(
+    1,
+    Math.ceil(
+      profesionalesFiltrados.length /
+      REGISTROS_POR_PAGINA
+    )
+  );
+
+  const nuevaPagina =
+    paginaProfesionales + direccion;
+
+  if (
+    nuevaPagina < 1 ||
+    nuevaPagina > totalPaginas
+  ) {
+    return;
+  }
+
+  paginaProfesionales = nuevaPagina;
+
+  mostrarPaginaProfesionales();
+}
+
+      // READ: Renderizar la tabla de personal incluyendo la columna DNI y el botón de editar (✏️)
+function renderizarTablaPersonal(lista) {
+  const tbody = document.getElementById("tbodyPersonalAdmin");
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
+
+  lista.forEach((p) => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td style="vertical-align: middle;">
+        <b>${(p.apellido || "").toUpperCase()}, ${(p.nombre || "").toUpperCase()}</b>
+      </td>
+
+      <td style="vertical-align: middle;">
+        ${p.dni || ""}
+      </td>
+
+      <td style="vertical-align: middle;">
+        <span
+          class="badge-ok"
+          style="background-color:#1e293b; color:#cbd5e1;"
+        >
+          ${(p.especialidad || "").toUpperCase()}
+        </span>
+      </td>
+
+      <td style="vertical-align: middle;">
+        ${(p.email || "").toUpperCase()}
+      </td>
+
+      <td style="vertical-align: middle;">
+       <button
+  type="button"
+  class="btn-accion-personal btn-editar-personal"
+  onclick="prepararModificacionPersonal(${p.id})"
+  title="Modificar profesional"
+>
+  ✏️
+</button>
+
+      <button
+  type="button"
+  class="btn-accion-personal btn-clave-personal"
+  onclick="blanquearClaveProfesional(${p.idUsuario})"
+  ${!p.idUsuario ? "disabled" : ""}
+  title="${
+    p.idUsuario
+      ? "Restablecer contraseña"
+      : "El profesional no tiene una cuenta asociada"
+  }"
+>
+  🔑
+</button>
+      ${
+  p.cuentaActiva === false
+    ? `
+      <button
+        type="button"
+        class="btn-accion-personal btn-reactivar-personal"
+        onclick="reactivarCuentaProfesional(${p.idUsuario})"
+        ${!p.idUsuario ? "disabled" : ""}
+        title="Reactivar cuenta"
+      >
+        ↻
+      </button>
+    `
+    : `
+      <button
+        type="button"
+        class="btn-accion-personal btn-suspender-personal"
+        onclick="suspenderCuentaProfesional(${p.idUsuario})"
+        ${!p.idUsuario ? "disabled" : ""}
+        title="Suspender cuenta"
+      >
+        🚫
+      </button>
+    `
+}
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+      // UPDATE (Punto 3.1): Carga los datos del profesional en el formulario derecho para su edición
+    function prepararModificacionPersonal(idProfesional) {
+
+  // Buscar por ID REAL, no por posición de la grilla
+  const p = listaPersonalLocal.find(
+    (profesional) =>
+      Number(profesional.id) === Number(idProfesional)
+  );
+
+  if (!p) {
+    console.error(
+      "No se encontró el profesional con ID:",
+      idProfesional
+    );
+
+    mostrarAvisoMEJ("No se encontró el profesional seleccionado.");
+    return;
+  }
+
+  // ==========================================
+  // ABRIR MODAL
+  // ==========================================
+
+  const modal =
+    document.getElementById("modalPersonal");
+
+  const formulario =
+    document.getElementById("panelDerechoPersonal");
+
+  const contenedor =
+    document.getElementById(
+      "contenedorFormularioPersonalModal"
+    );
+
+  if (!modal || !formulario || !contenedor) {
+
+    console.error(
+      "No se encontraron los elementos del modal profesional."
+    );
+
+    return;
+  }
+
+  // Mover formulario al modal
+  contenedor.appendChild(formulario);
+
+  formulario.classList.remove("hidden-panel");
+
+  formulario.style.border = "none";
+  formulario.style.padding = "0";
+  formulario.style.boxShadow = "none";
+
+
+  // ==========================================
+  // CARGAR DATOS DEL PROFESIONAL
+  // ==========================================
+
+  document.getElementById("txtIdOcultoMed").value =
+    p.id;
+
+  document.getElementById("txtNombreMed").value =
+    p.nombre || "";
+
+  document.getElementById("txtApellidoMed").value =
+    p.apellido || "";
+
+const dniProfesional = String(p.dni || "")
+  .replace(/\D/g, "");
+
+document.getElementById("txtDniMed").value =
+  dniProfesional.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    "."
+  );
+  document.getElementById("selEspecialidadMed").value =
+    p.especialidad || "";
+
+  document.getElementById("txtEmailMed").value =
+    p.email || "";
+
+  document.getElementById("txtFotoOcultaPers").value =
+    p.fotoBase64 || "";
+
+
+  // ==========================================
+  // DNI NO MODIFICABLE
+  // ==========================================
+
+  document.getElementById("txtDniMed").disabled = true;
+
+  const mensajeDni =
+  document.getElementById("mensajeDniProfesional");
+
+if (mensajeDni) {
+  mensajeDni.style.display = "none";
+  mensajeDni.textContent = "";
+}
+
+
+  // ==========================================
+  // OCULTAR CONTRASEÑA EN MODIFICACIÓN
+  // ==========================================
+
+  const campoPassword =
+    document.getElementById("txtPassMed").parentElement;
+
+  if (campoPassword) {
+    campoPassword.style.display = "none";
+  }
+
+  document.getElementById("txtPassMed").required = false;
+
+
+  // ==========================================
+  // CAMBIAR TÍTULOS
+  // ==========================================
+
+  const tituloModal =
+    document.getElementById("tituloModalPersonal");
+
+  if (tituloModal) {
+    tituloModal.innerText =
+      "✏️ Modificar Datos Profesional";
+  }
+
+  document.getElementById(
+    "formTituloPersonal"
+  ).innerText =
+    "✏️ Modificar Datos Profesional";
+
+
+  // ==========================================
+  // BOTÓN GUARDAR
+  // ==========================================
+
+  const btnGuardar =
+    document.getElementById("btnSubmitTextoMed");
+
+  btnGuardar.innerText =
+    "Guardar Cambios del Staff";
+
+  btnGuardar.style.backgroundColor =
+    "#16a34a";
+
+
+ // ==========================================
+// BOTÓN CANCELAR
+// ==========================================
+
+let btnCancelar =
+  document.getElementById("btnCancelarEdicionMed");
+
+if (!btnCancelar) {
+
+  btnCancelar = document.createElement("button");
+
+  btnCancelar.type = "button";
+  btnCancelar.id = "btnCancelarEdicionMed";
+  btnCancelar.className = "btn-cancelar-personal";
+  btnCancelar.innerText = "✖ CANCELAR EDICIÓN";
+
+  btnCancelar.onclick = cerrarModalPersonal;
+
+  document
+    .getElementById("formPersonal")
+    .appendChild(btnCancelar);
+}
+
+btnCancelar.style.display = "block";
+  // ==========================================
+  // MOSTRAR MODAL
+  // ==========================================
+
+  modal.style.removeProperty("display");
+
+  modal.classList.remove("hidden-panel");
+}
+
+      // CREATE / UPDATE: Procesa el formulario del personal e interactúa de forma real con C#
+   async function procesarFormularioPersonal(event) {
+  event.preventDefault();
+
+  const idOcultoMed =
+    document.getElementById("txtIdOcultoMed").value;
+
+  const password =
+    document.getElementById("txtPassMed").value;
+
+      // En un ALTA, el DNI debe haber sido validado previamente.
+  // En MODIFICACIÓN no se vuelve a validar.
+  if (idOcultoMed === "" && !dniProfesionalDisponible) {
+    mostrarAvisoMEJ(
+      "No se puede registrar el profesional.\n\n" +
+      "Verifique que el DNI sea válido y que no pertenezca a otro profesional."
+    );
+
+    document.getElementById("txtDniMed").focus();
+    return;
+  }
+
+  const confirmar = await confirmarMEJ(
+    idOcultoMed === ""
+      ? "¿Dar de alta este nuevo perfil profesional?"
+      : "¿Guardar modificaciones del legajo de salud/técnico?"
+  );
+
+  if (!confirmar) return;
+
+  const especialidad =
+    document.getElementById("selEspecialidadMed").value;
+
+  const rolesTecnicos = [
+    "Profe",
+    "Entrenador",
+    "DirectorTecnico",
+    "AyudanteCampo",
+    "PreparadorFisico",
+    "EntrenadorArqueras",
+  ];
+
+  const sector = rolesTecnicos.includes(especialidad)
+    ? "Tecnico"
+    : "Salud";
+
+  // Datos del profesional
+  const profesional = {
+    Nombre: document.getElementById("txtNombreMed").value.trim(),
+    Apellido: document.getElementById("txtApellidoMed").value.trim(),
+    Dni: document
+  .getElementById("txtDniMed")
+  .value
+  .replace(/\D/g, ""),
+    Especialidad: especialidad,
+    Sector: sector,
+    Email: document.getElementById("txtEmailMed").value.trim(),
+    FotoBase64:
+      document.getElementById("txtFotoOcultaPers").value || null,
+  };
+
+  try {
+
+    let r;
+
+    // ==============================================
+    // ALTA DE PROFESIONAL
+    // ==============================================
+
+    if (idOcultoMed === "") {
+
+      const solicitud = {
+        Profesional: profesional,
+        PasswordInicial: password,
+      };
+
+      r = await fetch(
+        `${API_CUENTAS_URL}/alta-profesional`,
+        {
+          method: "POST",
+
+          // IMPORTANTE:
+          // envía Content-Type + TOKEN JWT
+          headers: obtenerHeadersAuth(true),
+
+          body: JSON.stringify(solicitud),
+        }
+      );
+
+    }
+
+    // ==============================================
+    // MODIFICACIÓN DE PROFESIONAL
+    // ==============================================
+
+    else {
+
+      r = await fetch(
+        `${API_CUENTAS_URL}/modificar-profesional/${idOcultoMed}`,
+        {
+          method: "PUT",
+
+          // También necesita JWT
+          headers: obtenerHeadersAuth(true),
+
+          body: JSON.stringify(profesional),
+        }
+      );
+    }
+
+    const textoRespuesta = await r.text();
+
+    let respuesta = null;
+
+    try {
+      respuesta =
+        textoRespuesta
+          ? JSON.parse(textoRespuesta)
+          : null;
+    } catch {
+      respuesta = null;
+    }
+
+    // ==============================================
+    // RESPUESTA CORRECTA
+    // ==============================================
+
+    if (r.ok) {
+
+      mostrarAvisoMEJ(
+        respuesta?.mensaje ||
+        "Operación realizada correctamente."
+      );
+
+      cerrarModalPersonal();
+
+      await cargarPersonalReal();
+
+      return;
+    }
+
+    // ==============================================
+    // ERROR DEL BACKEND
+    // ==============================================
+
+    console.error(
+      "Error al guardar profesional:",
+      r.status,
+      textoRespuesta
+    );
+
+    mostrarAvisoMEJ(
+      respuesta?.mensaje ||
+      respuesta?.detalle ||
+      textoRespuesta ||
+      `Error HTTP ${r.status} al guardar el profesional.`
+    );
+
+  } catch (e) {
+
+    console.error(
+      "Error en procesarFormularioPersonal:",
+      e
+    );
+
+    mostrarAvisoMEJ(
+      "No se pudo completar la operación.\n\n" +
+      e.message
+    );
+  }
+}
+
+      function restablecerFormularioPersonal() {
+        document.getElementById("formPersonal").reset();
+        document.getElementById("txtIdOcultoMed").value = "";
+        document.getElementById("txtDniMed").disabled = false;
+        document.getElementById("txtFotoOcultaPers").value = "";
+
+        const campoPass = document.getElementById("txtPassMed").parentElement;
+        if (campoPass) campoPass.style.display = "block";
+        document.getElementById("txtPassMed").required = true;
+        document.getElementById("txtPassMed").value = "Talleres2026";
+
+        const btnCancelar = document.getElementById("btnCancelarEdicionMed");
+        if (btnCancelar) btnCancelar.remove();
+
+        document.getElementById("formTituloPersonal").innerText =
+          "➕ Alta de Cuenta Profesional";
+        document.getElementById("btnSubmitTextoMed").innerText =
+          "Dar de Alta Cuenta Segura";
+        document.getElementById("btnSubmitTextoMed").style.backgroundColor =
+          "#1e293b";
+      }
+
+      // VINCULACIÓN ADICIONAL PARA JUGADORAS (Punto 3)
+      // Buscá arriba tu función "procesarFormularioJugadora" y fíjate que la URL del POST (Alta) incluya la clave:
+      // let r = idOculto === ""
+      //     ? await fetch(${API_JUGADORAS_URL}?passwordInicial=${encodeURIComponent(document.getElementById('txtPasswordJugadora').value)}, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+
+      //Blanqueo de claves//
+      async function blanquearClaveJugadora(idJugadora) {
+        if (!idJugadora || Number(idJugadora) <= 0) {
+          mostrarAvisoMEJ("La jugadora seleccionada no es válida.");
+          return;
+        }
+
+        const nuevaClave = await solicitarDatoMEJ(
+          "Ingrese la nueva contraseña para la jugadora:",
+          "Talleres2026",
+        );
+
+   if (!nuevaClave || !nuevaClave.trim()) return;
+
+const confirmar = await confirmarMEJ(
+  "¿Confirma el restablecimiento de la contraseña de esta jugadora?"
+);
+
+if (!confirmar) return;
+
+try {
+  const url =
+  `${API_JUGADORAS_URL}/resetear-clave/${idJugadora}`;
+
+const respuestaHttp = await fetch(url, {
+  method: "PUT",
+  headers: obtenerHeadersAuth(true),
+  body: JSON.stringify({
+    nuevaPassword: nuevaClave.trim()
+  }),
+});
+          const texto = await respuestaHttp.text();
+          let respuesta = null;
+
+          try {
+            respuesta = texto ? JSON.parse(texto) : null;
+          } catch {
+            respuesta = null;
+          }
+
+         if (!respuestaHttp.ok) {
+  throw new Error(
+    respuesta?.detalle ||
+      respuesta?.mensaje ||
+      texto ||
+      `Error HTTP ${respuestaHttp.status}`
+  );
+}
+
+          mostrarAvisoMEJ(respuesta?.mensaje || "Contraseña actualizada correctamente.");
+        } catch (error) {
+          console.error("Error al cambiar clave de jugadora:", error);
+
+          mostrarAvisoMEJ("No se pudo cambiar la contraseña.\n\n" + error.message);
+        }
+      }
+
+   async function blanquearClaveProfesional(idUsuario) {
+  if (!idUsuario || Number(idUsuario) <= 0) {
+    mostrarAvisoMEJ("El profesional no tiene una cuenta de usuario asociada.");
+    return;
+  }
+
+  const nuevaClave = await solicitarDatoMEJ(
+    "Ingrese la nueva contraseña para el profesional:",
+    "Talleres2026"
+  );
+
+  if (!nuevaClave || !nuevaClave.trim()) {
+    return;
+  }
+
+  // El DTO exige al menos 8 caracteres
+  if (nuevaClave.trim().length < 8) {
+    mostrarAvisoMEJ(
+      "La contraseña debe tener al menos 8 caracteres."
+    );
+    return;
+  }
+
+  try {
+    const url =
+      `${API_CUENTAS_URL}/resetear-clave/${idUsuario}`;
+
+    const r = await fetch(url, {
+      method: "PUT",
+
+      // Necesitamos JWT + application/json
+      headers: obtenerHeadersAuth(true),
+
+      body: JSON.stringify({
+        NuevaPassword: nuevaClave.trim()
+      }),
+    });
+
+    const texto = await r.text();
+
+    let respuesta = null;
+
+    try {
+      respuesta = texto
+        ? JSON.parse(texto)
+        : null;
+    } catch {
+      respuesta = null;
+    }
+
+    if (!r.ok) {
+      throw new Error(
+        respuesta?.mensaje ||
+        respuesta?.detalle ||
+        texto ||
+        `Error HTTP ${r.status}`
+      );
+    }
+
+    mostrarAvisoMEJ(
+      respuesta?.mensaje ||
+      "Contraseña del profesional actualizada correctamente."
+    );
+
+  } catch (error) {
+    console.error(
+      "Error al restablecer contraseña:",
+      error
+    );
+
+    mostrarAvisoMEJ(
+      "No se pudo restablecer la contraseña.\n\n" +
+      error.message
+    );
+  }
+}
+
+async function reactivarCuentaProfesional(idUsuario) {
+  if (!idUsuario || Number(idUsuario) <= 0) {
+    mostrarAvisoMEJ("El profesional no tiene una cuenta de usuario válida.");
+    return;
+  }
+
+  const confirmar = await confirmarMEJ(
+    "¿Desea reactivar el acceso de este profesional?\n\n" +
+    "El profesional podrá volver a iniciar sesión."
+  );
+
+  if (!confirmar) return;
+
+  try {
+    const respuestaHttp = await fetch(
+      `${API_CUENTAS_URL}/reactivar-cuenta/${idUsuario}`,
+      {
+        method: "PUT",
+        headers: obtenerHeadersAuth(),
+      }
+    );
+
+    const texto = await respuestaHttp.text();
+
+    let respuesta = null;
+
+    try {
+      respuesta = texto ? JSON.parse(texto) : null;
+    } catch {
+      respuesta = null;
+    }
+
+    if (!respuestaHttp.ok) {
+      throw new Error(
+        respuesta?.detalle ||
+        respuesta?.mensaje ||
+        texto ||
+        `Error HTTP ${respuestaHttp.status}`
+      );
+    }
+
+    mostrarAvisoMEJ(
+      respuesta?.mensaje ||
+      "Cuenta reactivada correctamente."
+    );
+
+    // Recargar tabla para que ↻ vuelva a convertirse en 🚫
+    await cargarPersonalReal();
+
+  } catch (error) {
+    console.error(
+      "Error al reactivar profesional:",
+      error
+    );
+
+    mostrarAvisoMEJ(
+      "No se pudo reactivar la cuenta.\n\n" +
+      error.message
+    );
+  }
+}
+      // SUSPENSIÓN CUENTA PERSONAL (Baja Lógica)
+      async function suspenderCuentaProfesional(idUsuario) {
+        if (!idUsuario || Number(idUsuario) <= 0) {
+          mostrarAvisoMEJ("El profesional no tiene una cuenta de usuario válida.");
+          return;
+        }
+
+        const confirmar = await confirmarMEJ(
+          "¿Desea suspender el acceso de este profesional?\n\n" +
+            "La información histórica se conservará, pero ya no podrá iniciar sesión.",
+        );
+
+        if (!confirmar) return;
+
+        try {
+          const url = `${API_CUENTAS_URL}/suspender-cuenta/${idUsuario}`;
+
+          const respuestaHttp = await fetch(url, {
+  method: "PUT",
+  headers: obtenerHeadersAuth(),
+});
+          const texto = await respuestaHttp.text();
+
+          let respuesta = null;
+
+          try {
+            respuesta = texto ? JSON.parse(texto) : null;
+          } catch {
+            respuesta = null;
+          }
+
+        if (!respuestaHttp.ok) {
+  throw new Error(
+    respuesta?.detalle ||
+      respuesta?.mensaje ||
+      texto ||
+      `Error HTTP ${respuestaHttp.status}`
+  );
+}
+
+          mostrarAvisoMEJ(respuesta?.mensaje || "Cuenta suspendida correctamente.");
+
+          await cargarPersonalReal();
+        } catch (error) {
+          console.error("Error completo al suspender profesional:", error);
+
+          mostrarAvisoMEJ("No se pudo suspender la cuenta.\n\n" + error.message);
+        }
+      }
+      // DISPARADOR DE INICIO AL CARGAR EL NAVEGADOR EDGE
+
+      window.onload = function () {
+        cargarPlantelReal();
+        cargarPersonalReal();
+      };
+    </script>
+  <script src="mej-institucional.js"></script>
+<script src="mej-cabecera-unica.js?v=3"></script>
+</body>
+</html>
